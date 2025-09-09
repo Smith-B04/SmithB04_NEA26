@@ -7,17 +7,21 @@ using UnityEngine.UI;
 using UnityEngine.UIElements;
 using static System.Net.Mime.MediaTypeNames;
 
-public class MovementScript : MonoBehaviour {
+public class CharacterController : MonoBehaviour {
 
     public UnityEngine.UI.Image healthBar;
-    private Rigidbody2D rb;
-    public float speedModifier;
-	public bool sprinting;
-	private bool isGrounded;
-    public float jumpModifier;
-    public float maxHealth;
-    public float health;
+    public UnityEngine.UI.Image staminaBar;
     public Collider2D attackCollider;
+    private Rigidbody2D rb;
+	private bool sprinting;
+	private bool isGrounded;
+    private float speedModifier = 0.1f;
+    private float jumpModifier = 300f;
+    public float maxHealth;
+    private float health;
+    public float maxStamina;
+    private float stamina;
+    private float staminaTimer;
 
     Dictionary<string, float> damageResistances = new Dictionary<string, float> 
     {
@@ -33,6 +37,7 @@ public class MovementScript : MonoBehaviour {
     // Use this for initialization
     void Start () {
         health = maxHealth;
+        stamina = maxStamina;
 		rb = this.GetComponent<Rigidbody2D> ();
         sprinting = false;
         attackCollider.enabled = false;
@@ -40,9 +45,13 @@ public class MovementScript : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update() {
-        if (Input.GetKey(KeyCode.P))
+        if (Input.GetKeyDown(KeyCode.P))
         {
-            TakeDamage(1, "physical");
+            TakeDamage(10, "physical");
+        }
+        if (Input.GetKeyDown(KeyCode.F))
+        {
+            TakeDamage(10, "fire");
         }
 
         if (Input.mousePosition.x < Screen.width/2)
@@ -51,10 +60,27 @@ public class MovementScript : MonoBehaviour {
         } else {
             this.transform.localScale = new Vector3(Math.Abs(this.transform.localScale.x), this.transform.localScale.y, this.transform.localScale.z);
         }
+
+        if (staminaTimer < 0)
+        {
+            if (stamina < maxStamina) {
+                stamina += Time.deltaTime * 100;
+                loadBars();
+            }
+            else 
+            {
+                stamina = maxStamina;
+                loadBars();
+            }
+        } 
+        else
+        {
+            staminaTimer -= Time.deltaTime;
+        }
     }
 
 
-        void FixedUpdate () {
+    void FixedUpdate () {
 		if (Input.GetKey (KeyCode.A)) {
             /*
             this.transform.position = new Vector3(
@@ -72,7 +98,7 @@ public class MovementScript : MonoBehaviour {
             {
                 rb.AddForce(new Vector3(
                     (isGrounded) ? (
-                    Input.GetKey(KeyCode.LeftShift) ?
+                    (Input.GetKey(KeyCode.LeftShift) && stamina > 0) ?
                     ((float)(1.5 * -speedModifier * 300)) :
                     (-speedModifier * 300)
                     ) :
@@ -99,7 +125,7 @@ public class MovementScript : MonoBehaviour {
             { 
                 rb.AddForce(new Vector3(
                     (isGrounded) ? (
-                    Input.GetKey(KeyCode.LeftShift) ?
+                    (Input.GetKey(KeyCode.LeftShift) && stamina > 0) ?
                     ((float)(1.5 * speedModifier * 300)) :
                     (speedModifier * 300)
                     ) :
@@ -126,6 +152,7 @@ public class MovementScript : MonoBehaviour {
     public void loadBars()
     {
         healthBar.fillAmount = health / maxHealth;
+        staminaBar.fillAmount = stamina / maxStamina;
     }
 
     private void OnJump()
@@ -135,8 +162,13 @@ public class MovementScript : MonoBehaviour {
 
     private void OnLeftLightAttack()
     {
-        Debug.Log("LeftLightAttack");
-        attackCollider.enabled = true;
+        if (stamina > 0) {
+            Debug.Log("LeftLightAttack");
+            attackCollider.enabled = true;
+            stamina -= 10;
+            staminaTimer = 1;
+            loadBars();
+        }
     }
 
     private void OnCollisionEnter2D(Collision2D other)
