@@ -9,67 +9,134 @@ using static System.Net.Mime.MediaTypeNames;
 
 public class MovementScript : MonoBehaviour {
 
-	
-	public GameObject playerCharacter;
     public UnityEngine.UI.Image healthBar;
     private Rigidbody2D rb;
     public float speedModifier;
 	public bool sprinting;
 	private bool isGrounded;
     public float jumpModifier;
-    public int maxHealth;
-    private int health;
+    public float maxHealth;
+    public float health;
+    public Collider2D attackCollider;
 
+    Dictionary<string, float> damageResistances = new Dictionary<string, float> 
+    {
+        ["physical"] = 0.5f,
+        ["fire"] = 1f,
+        ["magic"] = 1f,
+        ["lightning"] = 1f,
+        ["holy"] = 1f,
+        ["frost"] = 1f,
+        ["poison"] = 1f,
+    };
 
     // Use this for initialization
     void Start () {
         health = maxHealth;
-		rb = playerCharacter.GetComponent<Rigidbody2D> ();
-		sprinting = false;
+		rb = this.GetComponent<Rigidbody2D> ();
+        sprinting = false;
+        attackCollider.enabled = false;
     }
 
 	// Update is called once per frame
 	void Update() {
-        TakeDamage(5, "hello");
+        if (Input.GetKey(KeyCode.P))
+        {
+            TakeDamage(1, "physical");
+        }
+
+        if (Input.mousePosition.x < Screen.width/2)
+        {
+            this.transform.localScale = new Vector3(-1 * Math.Abs(this.transform.localScale.x), this.transform.localScale.y, this.transform.localScale.z);
+        } else {
+            this.transform.localScale = new Vector3(Math.Abs(this.transform.localScale.x), this.transform.localScale.y, this.transform.localScale.z);
+        }
     }
 
 
-    void FixedUpdate () {
+        void FixedUpdate () {
 		if (Input.GetKey (KeyCode.A)) {
-            playerCharacter.transform.position = new Vector3(
+            /*
+            this.transform.position = new Vector3(
                 (isGrounded) ? (
                 Input.GetKey(KeyCode.LeftShift) ?
-                (playerCharacter.transform.position.x - (float)(1.5 * speedModifier)) :
-                (playerCharacter.transform.position.x - speedModifier)
+                (this.transform.position.x - (float)(1.5 * speedModifier)) :
+                (this.transform.position.x - speedModifier)
                 ) :
-                ((playerCharacter.transform.position.x - (float)(0.5 * speedModifier))),
-                playerCharacter.transform.position.y,
-                playerCharacter.transform.position.z
+                ((this.transform.position.x - (float)(0.5 * speedModifier))),
+                this.transform.position.y,
+                this.transform.position.z
                 );
+            */
+            if (rb.linearVelocity.x > (Input.GetKey(KeyCode.LeftShift) ? -7.5 : -5))
+            {
+                rb.AddForce(new Vector3(
+                    (isGrounded) ? (
+                    Input.GetKey(KeyCode.LeftShift) ?
+                    ((float)(1.5 * -speedModifier * 300)) :
+                    (-speedModifier * 300)
+                    ) :
+                    (((float)(0.1 * -speedModifier * 300))),
+                    0,
+                    0
+                    ));
+            }
         }
 		if (Input.GetKey (KeyCode.D)) {
-            playerCharacter.transform.position = new Vector3(
+            /*
+            this.transform.position = new Vector3(
                 (isGrounded) ? (
                 Input.GetKey(KeyCode.LeftShift) ?
-                (playerCharacter.transform.position.x + (float)(1.5 * speedModifier)) :
-                (playerCharacter.transform.position.x + speedModifier)
+                (this.transform.position.x + (float)(1.5 * speedModifier)) :
+                (this.transform.position.x + speedModifier)
                 ) :
-                ((playerCharacter.transform.position.x + (float)(0.5 * speedModifier))),
-                playerCharacter.transform.position.y,
-                playerCharacter.transform.position.z
+                ((this.transform.position.x + (float)(0.5 * speedModifier))),
+                this.transform.position.y,
+                this.transform.position.z
                 );
+            */
+            if (rb.linearVelocity.x < (Input.GetKey(KeyCode.LeftShift) ? 7.5 : 5)) 
+            { 
+                rb.AddForce(new Vector3(
+                    (isGrounded) ? (
+                    Input.GetKey(KeyCode.LeftShift) ?
+                    ((float)(1.5 * speedModifier * 300)) :
+                    (speedModifier * 300)
+                    ) :
+                    (((float)(0.1 * speedModifier * 300))),
+                    0,
+                    0
+                    ));
+            }
+        }
+
+        if (!(Input.GetKey(KeyCode.A)) && !(Input.GetKey(KeyCode.D)))
+        {
+            rb.linearVelocityX = 0;
+            //rb.linearVelocityX += (rb.linearVelocity.x == 0) ? (0) : ((rb.linearVelocity.x < 0) ? (1) : (-1)) ;
         }
     }
 
-    private void TakeDamage(int damage, string /*change to set type*/ damageType)
+    public void TakeDamage(int damage, string /*change to set type*/ damageType)
     {
-        health -= damage/* multiply by damage resistances dictionary.damageType */;
-        healthBar.fillAmount = health/maxHealth;
+        health -= (float)(damage * damageResistances[damageType]);
+        loadBars();
     }
 
-    void OnJump()
+    public void loadBars()
+    {
+        healthBar.fillAmount = health / maxHealth;
+    }
+
+    private void OnJump()
 	{
         rb.AddForce(new Vector3(0, jumpModifier, 0));
+    }
+
+    private void OnLeftLightAttack()
+    {
+        Debug.Log("LeftLightAttack");
+        attackCollider.enabled = true;
     }
 
     private void OnCollisionEnter2D(Collision2D other)
