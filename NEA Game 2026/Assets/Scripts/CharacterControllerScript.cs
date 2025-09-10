@@ -1,20 +1,22 @@
-﻿using Microsoft.Unity.VisualStudio.Editor;
+using Microsoft.Unity.VisualStudio.Editor;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.UI;
 using UnityEngine.UIElements;
 using static System.Net.Mime.MediaTypeNames;
 
-public class CharacterController : MonoBehaviour {
+public class CharacterControllerScript : MonoBehaviour
+{
 
     public UnityEngine.UI.Image healthBar;
     public UnityEngine.UI.Image staminaBar;
     public Collider2D attackCollider;
     private Rigidbody2D rb;
-	private bool sprinting;
-	private bool isGrounded;
+    private bool sprinting;
+    private bool isGrounded;
     private float speedModifier = 0.1f;
     private float jumpModifier = 300f;
     public float maxHealth;
@@ -22,8 +24,10 @@ public class CharacterController : MonoBehaviour {
     public float maxStamina;
     private float stamina;
     private float staminaTimer;
-
-    Dictionary<string, float> damageResistances = new Dictionary<string, float> 
+    private Vector2 moveInput;
+    private bool invincible;
+    private bool busy;
+    private Dictionary<string, float> damageResistances = new Dictionary<string, float>
     {
         ["physical"] = 0.5f,
         ["fire"] = 1f,
@@ -35,44 +39,51 @@ public class CharacterController : MonoBehaviour {
     };
 
     // Use this for initialization
-    void Start () {
+    void Start()
+    {
+        busy = false;
+        invincible = false;
         health = maxHealth;
         stamina = maxStamina;
-		rb = this.GetComponent<Rigidbody2D> ();
+        rb = this.GetComponent<Rigidbody2D>();
         sprinting = false;
         attackCollider.enabled = false;
     }
 
-	// Update is called once per frame
-	void Update() {
+    // Update is called once per frame
+    void Update()
+    {
         if (Input.GetKeyDown(KeyCode.P))
         {
             TakeDamage(10, "physical");
         }
-        if (Input.GetKeyDown(KeyCode.F))
+        if (Input.GetKeyDown(KeyCode.O))
         {
             TakeDamage(10, "fire");
         }
 
-        if (Input.mousePosition.x < Screen.width/2)
+        if (Input.mousePosition.x < Screen.width / 2)
         {
             this.transform.localScale = new Vector3(-1 * Math.Abs(this.transform.localScale.x), this.transform.localScale.y, this.transform.localScale.z);
-        } else {
+        }
+        else
+        {
             this.transform.localScale = new Vector3(Math.Abs(this.transform.localScale.x), this.transform.localScale.y, this.transform.localScale.z);
         }
 
         if (staminaTimer < 0)
         {
-            if (stamina < maxStamina) {
+            if (stamina < maxStamina)
+            {
                 stamina += Time.deltaTime * 100;
                 loadBars();
             }
-            else 
+            else
             {
                 stamina = maxStamina;
                 loadBars();
             }
-        } 
+        }
         else
         {
             staminaTimer -= Time.deltaTime;
@@ -80,9 +91,11 @@ public class CharacterController : MonoBehaviour {
     }
 
 
-    void FixedUpdate () {
-		if (Input.GetKey (KeyCode.A)) {
-            /*
+    void FixedUpdate()
+    {
+        /*
+        if (Input.GetKey(KeyCode.A))
+        {
             this.transform.position = new Vector3(
                 (isGrounded) ? (
                 Input.GetKey(KeyCode.LeftShift) ?
@@ -93,7 +106,6 @@ public class CharacterController : MonoBehaviour {
                 this.transform.position.y,
                 this.transform.position.z
                 );
-            */
             if (rb.linearVelocity.x > (Input.GetKey(KeyCode.LeftShift) ? -7.5 : -5))
             {
                 rb.AddForce(new Vector3(
@@ -108,8 +120,8 @@ public class CharacterController : MonoBehaviour {
                     ));
             }
         }
-		if (Input.GetKey (KeyCode.D)) {
-            /*
+        if (Input.GetKey(KeyCode.D))
+        {
             this.transform.position = new Vector3(
                 (isGrounded) ? (
                 Input.GetKey(KeyCode.LeftShift) ?
@@ -120,9 +132,8 @@ public class CharacterController : MonoBehaviour {
                 this.transform.position.y,
                 this.transform.position.z
                 );
-            */
-            if (rb.linearVelocity.x < (Input.GetKey(KeyCode.LeftShift) ? 7.5 : 5)) 
-            { 
+            if (rb.linearVelocity.x < (Input.GetKey(KeyCode.LeftShift) ? 7.5 : 5))
+            {
                 rb.AddForce(new Vector3(
                     (isGrounded) ? (
                     (Input.GetKey(KeyCode.LeftShift) && stamina > 0) ?
@@ -135,18 +146,47 @@ public class CharacterController : MonoBehaviour {
                     ));
             }
         }
+        */
+        if (Math.Abs(rb.linearVelocity.x) < (sprinting ? 7.5 : 5))
+        {
+            rb.AddForce(new Vector3(
+                (isGrounded) ? (
+                (sprinting && stamina > 0 && !busy) ?
+                ((float)(1.5 * moveInput.x * speedModifier * 30000 * Time.deltaTime)) :
+                (moveInput.x * speedModifier * 30000 * Time.deltaTime)
+                ) :
+                (((float)(0.1 * moveInput.x * speedModifier * 30000 * Time.deltaTime))),
+                0,
+                0
+                ));
+        }
 
-        if (!(Input.GetKey(KeyCode.A)) && !(Input.GetKey(KeyCode.D)))
+        if ((!(Input.GetKey(KeyCode.A)) && !(Input.GetKey(KeyCode.D))) || ((Input.GetKey(KeyCode.A)) && (Input.GetKey(KeyCode.D))))
         {
             rb.linearVelocityX = 0;
-            //rb.linearVelocityX += (rb.linearVelocity.x == 0) ? (0) : ((rb.linearVelocity.x < 0) ? (1) : (-1)) ;
+        }
+        else if ((Input.GetKey(KeyCode.D)) && (rb.linearVelocity.x < 0))
+        {
+            rb.linearVelocityX = 0;
+        }
+        else if ((Input.GetKey(KeyCode.A)) && (rb.linearVelocity.x > 0))
+        {
+            rb.linearVelocityX = 0;
         }
     }
 
     public void TakeDamage(int damage, string /*change to set type*/ damageType)
     {
-        health -= (float)(damage * damageResistances[damageType]);
-        loadBars();
+        if (invincible != true)
+        {
+            health -= (float)(damage * damageResistances[damageType]);
+            loadBars();
+        }
+    }
+
+    private void OnMove(InputValue value)
+    {
+        moveInput = value.Get<Vector2>();
     }
 
     public void loadBars()
@@ -155,28 +195,52 @@ public class CharacterController : MonoBehaviour {
         staminaBar.fillAmount = stamina / maxStamina;
     }
 
+    private void OnSprint()
+    {
+        sprinting = !sprinting;
+    }
+
+    private IEnumerator OnDodge()
+    {
+        if (stamina > 0 && !busy)
+        {
+            busy = true;
+            stamina -= 10;
+            staminaTimer = 1.2f;
+            invincible = true;
+            sprinting = true;
+            yield return new WaitForSecondsRealtime(0.2f); //WAIT STARTS AT THE START OF FUNCTION :(
+            busy = false;
+            invincible = false;
+            sprinting = false;
+        }
+    }
+
     private void OnJump()
-	{
+    {
         rb.AddForce(new Vector3(0, jumpModifier, 0));
     }
 
     private void OnLeftLightAttack()
     {
-        if (stamina > 0) {
+        if (stamina > 0 && !busy)
+        {
+            busy = true;
             Debug.Log("LeftLightAttack");
             attackCollider.enabled = true;
-            stamina -= 10;
+            stamina -= 30;
             staminaTimer = 1;
             loadBars();
+            busy = false;
         }
     }
 
     private void OnCollisionEnter2D(Collision2D other)
     {
         if (other.gameObject.tag == "Ground")
-		{
-			isGrounded = true;
-		}
+        {
+            isGrounded = true;
+        }
     }
 
     private void OnCollisionExit2D(Collision2D other)
