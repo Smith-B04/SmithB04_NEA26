@@ -147,6 +147,7 @@ public class CharacterControllerScript : MonoBehaviour
             }
         }
         */
+
         if (Math.Abs(rb.linearVelocity.x) < (sprinting ? 7.5 : 5))
         {
             rb.AddForce(new Vector3(
@@ -200,20 +201,26 @@ public class CharacterControllerScript : MonoBehaviour
         sprinting = !sprinting;
     }
 
-    private IEnumerator OnDodge()
+    private void OnDodge()
     {
         if (stamina > 0 && !busy)
         {
             busy = true;
             stamina -= 10;
+            loadBars();
             staminaTimer = 1.2f;
             invincible = true;
             sprinting = true;
-            yield return new WaitForSecondsRealtime(0.2f); //WAIT STARTS AT THE START OF FUNCTION :(
-            busy = false;
-            invincible = false;
-            sprinting = false;
+            StartCoroutine(DodgeFinish());
         }
+    }
+
+    private IEnumerator DodgeFinish()
+    {
+        yield return new WaitForSeconds(0.6f);
+        busy = false;
+        invincible = false;
+        sprinting = false;
     }
 
     private void OnJump()
