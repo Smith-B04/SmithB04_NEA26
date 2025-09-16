@@ -1,3 +1,7 @@
+//Created: Sprint 1
+//Last Edited: Sprint 1
+//Purpose: Move Camera to player character
+
 using UnityEngine;
 
 public class CameraMovementScript : MonoBehaviour

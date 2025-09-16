@@ -1,7 +1,25 @@
 fileFormatVersion: 2
-guid: 29290266ef7a30e40bdac324df24bb8c
+guid: 23c02659017fb2a4bb34fbc80b9309ba
 TextureImporter:
-  internalIDToNameTable: []
+  internalIDToNameTable:
+  - first:
+      213: 5120410236738981136
+    second: Orc-Idle_0
+  - first:
+      213: 1133040411461804861
+    second: Orc-Idle_1
+  - first:
+      213: -5096723200824463030
+    second: Orc-Idle_2
+  - first:
+      213: -2225174341924067898
+    second: Orc-Idle_3
+  - first:
+      213: -8233152129326895834
+    second: Orc-Idle_4
+  - first:
+      213: -4010699835880829198
+    second: Orc-Idle_5
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -63,9 +81,9 @@ TextureImporter:
   compressionQualitySet: 0
   textureFormatSet: 0
   ignorePngGamma: 0
-  applyGammaDecoding: 1
+  applyGammaDecoding: 0
   swizzle: 50462976
-  cookieLightType: 1
+  cookieLightType: 0
   platformSettings:
   - serializedVersion: 4
     buildTarget: DefaultTexturePlatform
@@ -110,133 +128,133 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Soldier-Idle_0
+      name: Orc-Idle_0
       rect:
         serializedVersion: 2
-        x: 0
-        y: 0
-        width: 100
-        height: 100
+        x: 43
+        y: 42
+        width: 24
+        height: 17
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
-      spriteID: 48877c4d4a7e39d4298d844e432739ae
-      internalID: -912174226
+      spriteID: 01dc9113bf95f0740800000000000000
+      internalID: 5120410236738981136
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Soldier-Idle_1
+      name: Orc-Idle_1
       rect:
         serializedVersion: 2
-        x: 100
-        y: 0
-        width: 100
-        height: 100
+        x: 143
+        y: 42
+        width: 24
+        height: 17
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
-      spriteID: bb8fe94884041b84e99d16aafa45a768
-      internalID: 1442290814
+      spriteID: d33e759404e59bf00800000000000000
+      internalID: 1133040411461804861
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Soldier-Idle_2
+      name: Orc-Idle_2
       rect:
         serializedVersion: 2
-        x: 200
-        y: 0
-        width: 100
-        height: 100
+        x: 243
+        y: 42
+        width: 24
+        height: 18
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
-      spriteID: 81ebe57772379bb4b9598c7ab5489530
-      internalID: 1061310387
+      spriteID: a41bd50a04dc449b0800000000000000
+      internalID: -5096723200824463030
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Soldier-Idle_3
+      name: Orc-Idle_3
       rect:
         serializedVersion: 2
-        x: 300
-        y: 0
-        width: 100
-        height: 100
+        x: 343
+        y: 42
+        width: 24
+        height: 18
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
-      spriteID: a46f9b93bc23b3c4685ec8f579540a0b
-      internalID: -2000909888
+      spriteID: 6c56d4ab9b79e11e0800000000000000
+      internalID: -2225174341924067898
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Soldier-Idle_4
+      name: Orc-Idle_4
       rect:
         serializedVersion: 2
-        x: 400
-        y: 0
-        width: 100
-        height: 100
+        x: 443
+        y: 42
+        width: 24
+        height: 17
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
-      spriteID: 4209d25f9f8875c46815cced1bb27614
-      internalID: -1329998798
+      spriteID: 62d28bd62c7fdbd80800000000000000
+      internalID: -8233152129326895834
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Soldier-Idle_5
+      name: Orc-Idle_5
       rect:
         serializedVersion: 2
-        x: 500
-        y: 0
-        width: 100
-        height: 100
+        x: 543
+        y: 42
+        width: 24
+        height: 17
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
-      spriteID: 483f12eb51a135549a6dbb5e7c28a71b
-      internalID: 1262611699
+      spriteID: 2fe0b95bfb12758c0800000000000000
+      internalID: -4010699835880829198
       vertices: []
       indices: 
       edges: []
@@ -245,7 +263,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 7ab58650bf4949549a1aa8a6071841f6
+    spriteID: 
     internalID: 0
     vertices: []
     indices: 
@@ -253,16 +271,14 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     spriteCustomMetadata:
-      entries:
-      - key: SpriteEditor.SliceSettings
-        value: '{"sliceOnImport":false,"gridCellCount":{"x":6.0,"y":1.0},"gridSpriteSize":{"x":100.0,"y":100.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":2,"keepEmptyRects":false,"isAlternate":false}'
+      entries: []
     nameFileIdTable:
-      Soldier-Idle_0: -912174226
-      Soldier-Idle_1: 1442290814
-      Soldier-Idle_2: 1061310387
-      Soldier-Idle_3: -2000909888
-      Soldier-Idle_4: -1329998798
-      Soldier-Idle_5: 1262611699
+      Orc-Idle_0: 5120410236738981136
+      Orc-Idle_1: 1133040411461804861
+      Orc-Idle_2: -5096723200824463030
+      Orc-Idle_3: -2225174341924067898
+      Orc-Idle_4: -8233152129326895834
+      Orc-Idle_5: -4010699835880829198
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

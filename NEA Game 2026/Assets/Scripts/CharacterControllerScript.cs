@@ -1,3 +1,7 @@
+//Created: Sprint 1
+//Last Edited: Sprint 1
+//Purpose: Control bahaviours of player character object
+
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -8,7 +12,7 @@ using UnityEngine.UIElements;
 
 public class CharacterControllerScript : MonoBehaviour
 {
-
+    private Animator animator;
     public UnityEngine.UI.Image healthBar;
     public UnityEngine.UI.Image staminaBar;
     public Collider2D attackCollider;
@@ -44,6 +48,7 @@ public class CharacterControllerScript : MonoBehaviour
         health = maxHealth;
         stamina = maxStamina;
         rb = this.GetComponent<Rigidbody2D>();
+        animator = this.GetComponent<Animator>();
         sprinting = false;
         attackCollider.enabled = false;
     }
@@ -146,8 +151,9 @@ public class CharacterControllerScript : MonoBehaviour
         }
         */
 
-        if (Math.Abs(rb.linearVelocity.x) < (sprinting ? 7.5 : 5))
+        if (Math.Abs(rb.linearVelocity.x) < (sprinting ? 7.5 : 5) && !busy)
         {
+            animator.SetBool("isWalking", true);
             rb.AddForce(new Vector3(
                 (isGrounded) ? (
                 (sprinting && stamina > 0 && !busy) ?
@@ -163,6 +169,9 @@ public class CharacterControllerScript : MonoBehaviour
         if ((!(Input.GetKey(KeyCode.A)) && !(Input.GetKey(KeyCode.D))) || ((Input.GetKey(KeyCode.A)) && (Input.GetKey(KeyCode.D))))
         {
             rb.linearVelocityX = 0;
+            animator.SetBool("isWalking", false);
+            sprinting = false;
+            animator.SetBool("isSprinting", false);
         }
         else if ((Input.GetKey(KeyCode.D)) && (rb.linearVelocity.x < 0))
         {
@@ -197,6 +206,7 @@ public class CharacterControllerScript : MonoBehaviour
     private void OnSprint()
     {
         sprinting = !sprinting;
+        animator.SetBool("isSprinting", sprinting);
     }
 
     private void OnDodge()
@@ -209,13 +219,13 @@ public class CharacterControllerScript : MonoBehaviour
             staminaTimer = 1.2f;
             invincible = true;
             sprinting = true;
-            StartCoroutine(DodgeFinish());
+            StartCoroutine(ActionFinish(0.6f));
         }
     }
 
-    private IEnumerator DodgeFinish()
+    private IEnumerator ActionFinish(float wait)
     {
-        yield return new WaitForSeconds(0.6f);
+        yield return new WaitForSeconds(wait);
         busy = false;
         invincible = false;
         sprinting = false;
@@ -231,12 +241,13 @@ public class CharacterControllerScript : MonoBehaviour
         if (stamina > 0 && !busy)
         {
             busy = true;
+            animator.SetTrigger("LeftLightAttack");
             Debug.Log("LeftLightAttack");
             attackCollider.enabled = true;
             stamina -= 30;
             staminaTimer = 1;
             loadBars();
-            busy = false;
+            StartCoroutine(ActionFinish(0.21f));
         }
     }
 
