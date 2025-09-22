@@ -216,16 +216,17 @@ public class CharacterControllerScript : MonoBehaviour
             busy = true;
             stamina -= 10;
             loadBars();
+            animator.SetTrigger("Roll");
             staminaTimer = 1.2f;
             invincible = true;
             sprinting = true;
-            StartCoroutine(ActionFinish(0.6f));
+            StartCoroutine(DodgeFinish());
         }
     }
 
-    private IEnumerator ActionFinish(float wait)
+    private IEnumerator DodgeFinish()
     {
-        yield return new WaitForSeconds(wait);
+        yield return new WaitForSeconds(0.6f);
         busy = false;
         invincible = false;
         sprinting = false;
@@ -247,8 +248,15 @@ public class CharacterControllerScript : MonoBehaviour
             stamina -= 30;
             staminaTimer = 1;
             loadBars();
-            StartCoroutine(ActionFinish(0.21f));
+            StartCoroutine(leftLightAttackFinish());
         }
+    }
+
+    private IEnumerator leftLightAttackFinish()
+    {
+        yield return new WaitForSeconds(0.4f);
+        busy = false;
+        attackCollider.enabled = false;
     }
 
     private void OnCollisionEnter2D(Collision2D other)
@@ -264,6 +272,15 @@ public class CharacterControllerScript : MonoBehaviour
         if (other.gameObject.tag == "Ground")
         {
             isGrounded = false;
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        EnemyHealth enemy = other.GetComponent<EnemyHealth>();
+        if (enemy != null)
+        {
+            enemy.TakeDamage(10, "physical");
         }
     }
 }
