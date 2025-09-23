@@ -4506,8 +4506,11 @@ GameObject:
   - component: {fileID: 1231490429}
   - component: {fileID: 1231490432}
   - component: {fileID: 1231490433}
-  - component: {fileID: 1231490434}
   - component: {fileID: 1231490435}
+  - component: {fileID: 1231490439}
+  - component: {fileID: 1231490438}
+  - component: {fileID: 1231490437}
+  - component: {fileID: 1231490436}
   m_Layer: 0
   m_Name: PlayerCharacter
   m_TagString: Untagged
@@ -4729,23 +4732,6 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 0.10051033, y: 0.18947107}
   m_EdgeRadius: 0
---- !u!114 &1231490434
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1231490426}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: da259a4340729204f8f861ba6b2b9764, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  healthBar: {fileID: 839854114}
-  staminaBar: {fileID: 231874694}
-  attackCollider: {fileID: 1231490433}
-  maxHealth: 100
-  maxStamina: 100
 --- !u!95 &1231490435
 Animator:
   serializedVersion: 7
@@ -4768,6 +4754,64 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &1231490436
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1231490426}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d10028048ce525647a5a5229ca4b7152, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CharacterHealth
+  healthBar: {fileID: 839854114}
+  maxHealth: 100
+  invincible: 0
+--- !u!114 &1231490437
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1231490426}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3e7a26285d944314eb623b3b9379ad70, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CharacterStamina
+  staminaBar: {fileID: 231874694}
+  maxStamina: 100
+  stamina: 0
+  staminaTimer: 0
+--- !u!114 &1231490438
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1231490426}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c4ce9336e73630940af9e8f8d9fc8bc7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CharacterMovement
+  sprinting: 0
+--- !u!114 &1231490439
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1231490426}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ea97e93321af37644bfb4afe2c66d2ce, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CharacterActions
+  busy: 0
+  attackCollider: {fileID: 1231490433}
 --- !u!1 &1783900342
 GameObject:
   m_ObjectHideFlags: 0

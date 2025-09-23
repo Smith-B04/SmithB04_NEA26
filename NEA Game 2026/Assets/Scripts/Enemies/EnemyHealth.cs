@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class EnemyHealth : MonoBehaviour
 {
-    private Collider2D collider;
+    //private Collider2D collider;
     private Rigidbody2D rb;
     private Animator animator;
     public float maxHealth;
@@ -22,7 +22,7 @@ public class EnemyHealth : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        collider = this.GetComponent<Collider2D>();
+        //collider = this.GetComponent<Collider2D>();
         rb = this.GetComponent<Rigidbody2D>();
         animator = this.GetComponent<Animator>();
         health = maxHealth;
