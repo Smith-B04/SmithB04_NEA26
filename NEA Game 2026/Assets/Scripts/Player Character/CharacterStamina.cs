@@ -6,6 +6,7 @@ using UnityEngine.UI;
 using UnityEngine.UIElements;
 using UnityEngine;
 using System.Collections.Generic;
+using UnityEditor;
 
 public class CharacterStamina : MonoBehaviour
 {
@@ -17,7 +18,7 @@ public class CharacterStamina : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        stamina = maxStamina;
+        stamina = maxStamina; //starts stamina at max value
     }
 
     // Update is called once per frame
@@ -27,18 +28,18 @@ public class CharacterStamina : MonoBehaviour
         {
             if (stamina < maxStamina)
             {
-                stamina += Time.deltaTime * 100;
+                stamina += Time.deltaTime * 100; //This will refill stamina bar from 0 to full in a standard amount of time for any computer
                 loadBar();
             }
             else
             {
-                stamina = maxStamina;
+                stamina = maxStamina; //Ensures stamina doesn't go over max stamina
                 loadBar();
             }
         }
         else
         {
-            staminaTimer -= Time.deltaTime;
+            staminaTimer -= Time.deltaTime; //Removes time from the cool down to start refilling stamina
         }
     }
 

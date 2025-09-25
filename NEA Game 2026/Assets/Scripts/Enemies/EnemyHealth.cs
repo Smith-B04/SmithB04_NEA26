@@ -3,11 +3,12 @@ using UnityEngine;
 
 public class EnemyHealth : MonoBehaviour
 {
-    //private Collider2D collider;
+    private CapsuleCollider2D enemyCollider;
     private Rigidbody2D rb;
     private Animator animator;
     public float maxHealth;
     private float health;
+    private bool dead;
     private Dictionary<string, float> damageResistances = new Dictionary<string, float>
     {
         ["physical"] = 0.5f,
@@ -22,7 +23,8 @@ public class EnemyHealth : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        //collider = this.GetComponent<Collider2D>();
+        dead = false;
+        enemyCollider = this.GetComponent<CapsuleCollider2D>();
         rb = this.GetComponent<Rigidbody2D>();
         animator = this.GetComponent<Animator>();
         health = maxHealth;
@@ -40,8 +42,20 @@ public class EnemyHealth : MonoBehaviour
         animator.SetTrigger("Hurt");
         if (health <= 0f)
         {
-            rb.simulated = false;
             animator.SetBool("Dead", true);
+            enemyCollider.size = new Vector2(0.1f,0.1f);
+            dead = true;
+        }
+    }
+
+    private void OnCollisionEnter2D(Collision2D other)
+    {
+        if (other.gameObject.tag == "Ground")
+        {
+            if (dead)
+            {
+                rb.simulated = false;
+            }
         }
     }
 }

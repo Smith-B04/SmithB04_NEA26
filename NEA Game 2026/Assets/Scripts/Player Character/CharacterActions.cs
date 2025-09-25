@@ -17,13 +17,14 @@ public class CharacterActions : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        animator = this.GetComponent<Animator>();
-        attackCollider.enabled = false;
+        animator = this.GetComponent<Animator>(); //Get the animator
+        attackCollider.enabled = false; //Disable the hitbox made by sword
     }
 
     // Update is called once per frame
     void Update()
     {
+        //Test Keys for taking damage
         if (Input.GetKeyDown(KeyCode.P))
         {
             this.GetComponent<CharacterHealth>().TakeDamage(10, "physical");
@@ -36,10 +37,10 @@ public class CharacterActions : MonoBehaviour
 
     private void OnDodge()
     {
-        if (this.GetComponent<CharacterStamina>().stamina > 0 && !busy)
+        if (this.GetComponent<CharacterStamina>().stamina > 0 && !busy && this.GetComponent<CharacterMovement>().isGrounded)
         {
             busy = true;
-            this.GetComponent<CharacterStamina>().stamina -= 10;
+            this.GetComponent<CharacterStamina>().stamina -= 10; //Edit stamina accordingly
             this.GetComponent<CharacterStamina>().loadBar();
             animator.SetTrigger("Roll");
             this.GetComponent<CharacterStamina>().staminaTimer = 1.2f;
@@ -49,6 +50,7 @@ public class CharacterActions : MonoBehaviour
         }
     }
 
+    //Return variables to original values after set amount of time
     private IEnumerator DodgeFinish()
     {
         yield return new WaitForSeconds(0.6f);
@@ -64,14 +66,15 @@ public class CharacterActions : MonoBehaviour
             busy = true;
             animator.SetTrigger("LeftLightAttack");
             Debug.Log("LeftLightAttack");
-            attackCollider.enabled = true;
-            this.GetComponent<CharacterStamina>().stamina -= 30;
+            attackCollider.enabled = true; //Enable sword attack collider
+            this.GetComponent<CharacterStamina>().stamina -= 30; //Edit stamina accordingly
             this.GetComponent<CharacterStamina>().staminaTimer = 1;
             this.GetComponent<CharacterStamina>().loadBar();
             StartCoroutine(leftLightAttackFinish());
         }
     }
 
+    //Return variables to original values after set amount of time
     private IEnumerator leftLightAttackFinish()
     {
         yield return new WaitForSeconds(0.4f);
@@ -79,12 +82,16 @@ public class CharacterActions : MonoBehaviour
         attackCollider.enabled = false;
     }
 
+    //Detect if sword hit anything and apply damage to it if so
     private void OnTriggerEnter2D(Collider2D other)
     {
-        EnemyHealth enemy = other.GetComponent<EnemyHealth>();
-        if (enemy != null)
+        if (attackCollider.IsTouching(other))
         {
-            enemy.TakeDamage(10, "physical");
+            EnemyHealth enemy = other.GetComponent<EnemyHealth>();
+            if (enemy != null)
+            {
+                enemy.TakeDamage(10, "physical");
+            }
         }
     }
 }

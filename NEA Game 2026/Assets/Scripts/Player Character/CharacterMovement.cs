@@ -10,10 +10,12 @@ using UnityEngine.InputSystem;
 
 public class CharacterMovement : MonoBehaviour
 {
+    public Collider2D footCollider;
     private Animator animator;
     private Rigidbody2D rb;
     public bool sprinting;
-    private bool isGrounded;
+    public bool canMove;
+    public bool isGrounded;
     private float speedModifier = 0.1f;
     private float jumpModifier = 300f;
     private Vector2 moveInput;
@@ -21,14 +23,16 @@ public class CharacterMovement : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        sprinting = false;
-        rb = this.GetComponent<Rigidbody2D>();
+        canMove = true; //Player can move at start of the game
+        sprinting = false; //Starts sprinting as false
+        rb = this.GetComponent<Rigidbody2D>(); //Get the players rigidbody and animator
         animator = this.GetComponent<Animator>();
     }
 
     // Update is called once per frame
     void Update()
     {
+        //Find the position of the mouse on the screen and if past the midpoint flip character scale to change the direction its facing
         if (Input.mousePosition.x < Screen.width / 2)
         {
             this.transform.localScale = new Vector3(-1 * Math.Abs(this.transform.localScale.x), this.transform.localScale.y, this.transform.localScale.z);
@@ -38,12 +42,14 @@ public class CharacterMovement : MonoBehaviour
             this.transform.localScale = new Vector3(Math.Abs(this.transform.localScale.x), this.transform.localScale.y, this.transform.localScale.z);
         }
 
-        if (Math.Abs(rb.linearVelocity.x) < (sprinting ? 7.5 : 5) && !this.GetComponent<CharacterActions>().busy)
+        //Find if the character can move and set a maximum velocity they can have dependent on whether they're sprinting or not
+        if (Math.Abs(rb.linearVelocity.x) < (sprinting ? 7.5 : 5) && canMove)
         {
-            animator.SetBool("isWalking", true);
+            animator.SetBool("isWalking", true); //Animate walking
+            //Adding different amounts of force based on whether the character is sprinting or in the air
             rb.AddForce(new Vector3(
                 (isGrounded) ? (
-                (sprinting && this.GetComponent<CharacterStamina>().stamina > 0 && !this.GetComponent<CharacterActions>().busy) ?
+                (sprinting && this.GetComponent<CharacterStamina>().stamina > 0) ?
                 ((float)(1.5 * moveInput.x * speedModifier * 30000 * Time.deltaTime)) :
                 (moveInput.x * speedModifier * 30000 * Time.deltaTime)
                 ) :
@@ -53,6 +59,7 @@ public class CharacterMovement : MonoBehaviour
                 ));
         }
 
+        //Stop velocity when swapping directions
         if ((!(Input.GetKey(KeyCode.A)) && !(Input.GetKey(KeyCode.D))) || ((Input.GetKey(KeyCode.A)) && (Input.GetKey(KeyCode.D))))
         {
             rb.linearVelocityX = 0;
@@ -70,35 +77,49 @@ public class CharacterMovement : MonoBehaviour
         }
     }
 
+    //Take movement input from InputSystem as a Vector2
     private void OnMove(InputValue value)
     {
         moveInput = value.Get<Vector2>();
     }
 
+    //Toggle sprinting with keybind in InputSystem
     private void OnSprint()
     {
         sprinting = !sprinting;
         animator.SetBool("isSprinting", sprinting);
     }
 
+    //Apply force upwards if jump key is inputted and player has remaining jumps
     private void OnJump()
     {
-        rb.AddForce(new Vector3(0, jumpModifier, 0));
-    }
-
-    private void OnCollisionEnter2D(Collision2D other)
-    {
-        if (other.gameObject.tag == "Ground")
+        if (!this.GetComponent<CharacterActions>().busy && isGrounded)
         {
-            isGrounded = true;
+            rb.AddForce(new Vector3(0, jumpModifier, 0));
         }
     }
 
-    private void OnCollisionExit2D(Collision2D other)
+    //Set grounded variable and reset jumps
+    private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.gameObject.tag == "Ground")
         {
-            isGrounded = false;
+            if (footCollider.IsTouching(other))
+            {
+                isGrounded = true;
+            }
+        }
+    }
+
+    //Set grounded variable
+    private void OnTriggerExit2D(Collider2D other)
+    {
+        if (other.gameObject.tag == "Ground")
+        {
+            if (!footCollider.IsTouching(other))
+            {
+                isGrounded = false;
+            }
         }
     }
 }
