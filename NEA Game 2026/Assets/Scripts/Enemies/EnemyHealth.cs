@@ -7,7 +7,7 @@ public class EnemyHealth : MonoBehaviour
     private Rigidbody2D rb;
     private Animator animator;
     public float maxHealth;
-    private float health;
+    public float health;
     private bool dead;
     private Dictionary<string, float> damageResistances = new Dictionary<string, float>
     {

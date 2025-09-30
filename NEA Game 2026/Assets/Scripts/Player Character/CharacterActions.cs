@@ -10,6 +10,7 @@ using UnityEngine.InputSystem;
 
 public class CharacterActions : MonoBehaviour
 {
+    public GameObject arrow;
     public bool busy;
     private Animator animator;
     public Collider2D attackCollider;
@@ -80,6 +81,34 @@ public class CharacterActions : MonoBehaviour
         yield return new WaitForSeconds(0.4f);
         busy = false;
         attackCollider.enabled = false;
+    }
+
+    private void OnRightLightAttack()
+    {
+        if (this.GetComponent<CharacterStamina>().stamina > 0 && !busy)
+        {
+            busy = true;
+            animator.SetTrigger("LeftLightAttack");
+            Debug.Log("RightLightAttack");
+            this.GetComponent<CharacterStamina>().stamina -= 30; //Edit stamina accordingly
+            this.GetComponent<CharacterStamina>().staminaTimer = 1;
+            this.GetComponent<CharacterStamina>().loadBar();
+            StartCoroutine(rightLightAttackFinish());
+        }
+    }
+
+    //Return variables to original values after set amount of time
+    private IEnumerator rightLightAttackFinish()
+    {
+        yield return new WaitForSeconds(0.4f);
+        GameObject newArrow = Instantiate(
+                arrow,
+                new Vector2(
+                    this.transform.position.x + 1.75f * this.transform.localScale.x / Math.Abs(this.transform.localScale.x),
+                    this.transform.position.y),
+                Quaternion.identity);
+        newArrow.transform.localScale = new Vector3(this.transform.localScale.x / Math.Abs(this.transform.localScale.x) * newArrow.transform.localScale.x, newArrow.transform.localScale.y, newArrow.transform.localScale.z);
+        busy = false;
     }
 
     //Detect if sword hit anything and apply damage to it if so

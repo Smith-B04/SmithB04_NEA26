@@ -1,4 +1,5 @@
 {
+    "version": 1,
     "name": "NEA Game 2026",
     "maps": [
         {
@@ -36,6 +37,15 @@
                     "name": "LeftLightAttack",
                     "type": "Button",
                     "id": "ced23e09-7c66-4e7f-b92f-36e757df9467",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "RightLightAttack",
+                    "type": "Button",
+                    "id": "30783fe0-36dc-4cca-a837-ae311c01f4d6",
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
@@ -322,6 +332,28 @@
                     "processors": "",
                     "groups": "",
                     "action": "Dodge",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "bd0011f6-a68f-4c79-a9f5-ab328547a821",
+                    "path": "<Mouse>/rightButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "RightLightAttack",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "89e2a32c-2160-479a-831c-a06b245b0acf",
+                    "path": "<XInputController>/rightShoulder",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "RightLightAttack",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
