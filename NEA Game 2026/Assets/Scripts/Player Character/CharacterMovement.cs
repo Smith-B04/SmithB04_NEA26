@@ -1,10 +1,11 @@
 //Created: Sprint 2
-//Last Edited: Sprint 2
+//Last Edited: Sprint 3
 //Purpose: Control movement of player character object
 
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Numerics;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -18,7 +19,8 @@ public class CharacterMovement : MonoBehaviour
     public bool isGrounded;
     private float speedModifier = 0.1f;
     private float jumpModifier = 300f;
-    private Vector2 moveInput;
+    private UnityEngine.Vector2 moveInput;
+    private UnityEngine.Vector2 mousePos;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -32,14 +34,16 @@ public class CharacterMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        mousePos = Input.mousePosition;
+
         //Find the position of the mouse on the screen and if past the midpoint flip character scale to change the direction its facing
-        if (Input.mousePosition.x < Screen.width / 2)
+        if (mousePos.x < Screen.width / 2)
         {
-            this.transform.localScale = new Vector3(-1 * Math.Abs(this.transform.localScale.x), this.transform.localScale.y, this.transform.localScale.z);
+            this.transform.localScale = new UnityEngine.Vector3(-1 * Math.Abs(this.transform.localScale.x), this.transform.localScale.y, this.transform.localScale.z);
         }
         else
         {
-            this.transform.localScale = new Vector3(Math.Abs(this.transform.localScale.x), this.transform.localScale.y, this.transform.localScale.z);
+            this.transform.localScale = new UnityEngine.Vector3(Math.Abs(this.transform.localScale.x), this.transform.localScale.y, this.transform.localScale.z);
         }
 
         //Find if the character can move and set a maximum velocity they can have dependent on whether they're sprinting or not
@@ -47,7 +51,7 @@ public class CharacterMovement : MonoBehaviour
         {
             animator.SetBool("isWalking", true); //Animate walking
             //Adding different amounts of force based on whether the character is sprinting or in the air
-            rb.AddForce(new Vector3(
+            rb.AddForce(new UnityEngine.Vector3(
                 (isGrounded) ? (
                 (sprinting && this.GetComponent<CharacterStamina>().stamina > 0) ?
                 ((float)(1.5 * moveInput.x * speedModifier * 30000 * Time.deltaTime)) :
@@ -64,8 +68,6 @@ public class CharacterMovement : MonoBehaviour
         {
             rb.linearVelocityX = 0;
             animator.SetBool("isWalking", false);
-            sprinting = false;
-            animator.SetBool("isSprinting", false);
         }
         else if ((Input.GetKey(KeyCode.D)) && (rb.linearVelocity.x < 0))
         {
@@ -80,13 +82,13 @@ public class CharacterMovement : MonoBehaviour
     //Take movement input from InputSystem as a Vector2
     private void OnMove(InputValue value)
     {
-        moveInput = value.Get<Vector2>();
+        moveInput = value.Get<UnityEngine.Vector2>();
     }
 
-    //Toggle sprinting with keybind in InputSystem
-    private void OnSprint()
+    //Take a boolean value if the key is held down
+    private void OnSprint(InputValue value)
     {
-        sprinting = !sprinting;
+        sprinting = value.isPressed;
         animator.SetBool("isSprinting", sprinting);
     }
 
@@ -95,7 +97,7 @@ public class CharacterMovement : MonoBehaviour
     {
         if (!this.GetComponent<CharacterActions>().busy && isGrounded)
         {
-            rb.AddForce(new Vector3(0, jumpModifier, 0));
+            rb.AddForce(new UnityEngine.Vector3(0, jumpModifier, 0));
         }
     }
 

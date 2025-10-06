@@ -1,5 +1,5 @@
 //Created: Sprint 2
-//Last Edited: Sprint 2
+//Last Edited: Sprint 3
 //Purpose: Control extra actions of player character object
 
 using System;
@@ -85,10 +85,11 @@ public class CharacterActions : MonoBehaviour
 
     private void OnRightLightAttack()
     {
-        if (this.GetComponent<CharacterStamina>().stamina > 0 && !busy)
+        if (this.GetComponent<CharacterStamina>().stamina > 0 && !busy && this.GetComponent<CharacterMovement>().isGrounded)
         {
+            this.GetComponent<CharacterMovement>().canMove = false;
             busy = true;
-            animator.SetTrigger("LeftLightAttack");
+            animator.SetTrigger("RightLightAttack");
             Debug.Log("RightLightAttack");
             this.GetComponent<CharacterStamina>().stamina -= 30; //Edit stamina accordingly
             this.GetComponent<CharacterStamina>().staminaTimer = 1;
@@ -100,14 +101,19 @@ public class CharacterActions : MonoBehaviour
     //Return variables to original values after set amount of time
     private IEnumerator rightLightAttackFinish()
     {
-        yield return new WaitForSeconds(0.4f);
+        yield return new WaitForSeconds(0.5f);
         GameObject newArrow = Instantiate(
                 arrow,
                 new Vector2(
                     this.transform.position.x + 1.75f * this.transform.localScale.x / Math.Abs(this.transform.localScale.x),
                     this.transform.position.y),
-                Quaternion.identity);
-        newArrow.transform.localScale = new Vector3(this.transform.localScale.x / Math.Abs(this.transform.localScale.x) * newArrow.transform.localScale.x, newArrow.transform.localScale.y, newArrow.transform.localScale.z);
+                Quaternion.identity); //Instantiate arrow
+        newArrow.transform.localScale = new Vector3(
+            this.transform.localScale.x / Math.Abs(this.transform.localScale.x) * newArrow.transform.localScale.x,
+            newArrow.transform.localScale.y, 
+            newArrow.transform.localScale.z
+            ); //Change arrows starting direction to the same as the player
+        this.GetComponent<CharacterMovement>().canMove = true;
         busy = false;
     }
 

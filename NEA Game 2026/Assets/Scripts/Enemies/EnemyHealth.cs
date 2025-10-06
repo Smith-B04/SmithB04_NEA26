@@ -1,3 +1,6 @@
+//Created: Sprint 2
+//Last Edited: Sprint 2
+//Purpose: Control the Health of an enemy
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -6,6 +9,7 @@ public class EnemyHealth : MonoBehaviour
     private CapsuleCollider2D enemyCollider;
     private Rigidbody2D rb;
     private Animator animator;
+    private SpriteRenderer sr;
     public float maxHealth;
     public float health;
     private bool dead;
@@ -24,9 +28,10 @@ public class EnemyHealth : MonoBehaviour
     void Start()
     {
         dead = false;
-        enemyCollider = this.GetComponent<CapsuleCollider2D>();
+        enemyCollider = this.GetComponent<CapsuleCollider2D>(); //Get enemy collider, rigid body, animator and sprite renderer
         rb = this.GetComponent<Rigidbody2D>();
         animator = this.GetComponent<Animator>();
+        sr = this.GetComponent<SpriteRenderer>();
         health = maxHealth;
     }
 
@@ -55,6 +60,7 @@ public class EnemyHealth : MonoBehaviour
             if (dead)
             {
                 rb.simulated = false;
+                sr.sortingOrder = -1;
             }
         }
     }
