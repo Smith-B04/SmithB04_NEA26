@@ -10,7 +10,6 @@ using UnityEngine;
 
 public class EnemyMovement : MonoBehaviour
 {
-    public GameObject enemyPivot;
     public Collider2D footCollider;
     private Animator animator;
     public GameObject target;
@@ -33,23 +32,25 @@ public class EnemyMovement : MonoBehaviour
     {
         if (active && Math.Abs(rb.linearVelocityX) < 5 && !animator.GetBool("Dead"))
         {
-            if (target.transform.position.x < enemyPivot.transform.position.x)
+            if (target.transform.position.x < this.transform.position.x)
             {
-                enemyPivot.transform.localScale = new UnityEngine.Vector3(-1 * Math.Abs(enemyPivot.transform.localScale.x), enemyPivot.transform.localScale.y, enemyPivot.transform.localScale.z);
+                this.transform.localScale = new UnityEngine.Vector3(-1 * Math.Abs(this.transform.localScale.x), this.transform.localScale.y, this.transform.localScale.z);
             }
             else
             {
-                enemyPivot.transform.localScale = new UnityEngine.Vector3(Math.Abs(enemyPivot.transform.localScale.x), enemyPivot.transform.localScale.y, enemyPivot.transform.localScale.z);
+                this.transform.localScale = new UnityEngine.Vector3(Math.Abs(this.transform.localScale.x), this.transform.localScale.y, this.transform.localScale.z);
             }
 
-            if (Math.Abs(target.transform.position.x - enemyPivot.transform.position.x) > 2.25f)
+            if (Math.Abs(target.transform.position.x - this.transform.position.x) > 2.25f)
             {
                 rb.AddForce(new UnityEngine.Vector3(
-                       enemyPivot.transform.localScale.x / Math.Abs(enemyPivot.transform.localScale.x) * speedModifier * 30000 * Time.deltaTime, 0, 0));
+                       this.transform.localScale.x / Math.Abs(this.transform.localScale.x) * speedModifier * 30000 * Time.deltaTime, 0, 0));
+                animator.SetBool("Walking", true);
             }
             else
             {
                 rb.linearVelocityX = 0;
+                animator.SetBool("Walking", false);
             }
         }
         else
