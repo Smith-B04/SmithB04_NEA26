@@ -24,12 +24,18 @@ public class ProjectileController : MonoBehaviour
     private void OnCollisionEnter2D(Collision2D other)
     {
         EnemyHealth enemy = other.gameObject.GetComponent<EnemyHealth>();
+        CharacterHealth player = other.gameObject.GetComponent<CharacterHealth>();
         if (enemy != null)
         {
             Debug.Log("Hit enemy");
             enemy.TakeDamage(20, "physical");
         }
-        
+        if (player != null)
+        {
+            Debug.Log("Hit player");
+            player.TakeDamage(20, "physical");
+        }
+
         Destroy(this.gameObject); //Destroy arrow in collision
     }
 }

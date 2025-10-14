@@ -10,6 +10,7 @@ using UnityEngine.InputSystem;
 
 public class CharacterActions : MonoBehaviour
 {
+    List<GameObject> enemiesHit = new List<GameObject>();
     public GameObject arrow;
     public bool busy;
     private Animator animator;
@@ -54,7 +55,7 @@ public class CharacterActions : MonoBehaviour
     //Return variables to original values after set amount of time
     private IEnumerator DodgeFinish()
     {
-        yield return new WaitForSeconds(0.6f);
+        yield return new WaitForSeconds(0.3f);
         busy = false;
         this.GetComponent<CharacterHealth>().invincible = false;
         this.GetComponent<CharacterMovement>().sprinting = false;
@@ -67,25 +68,33 @@ public class CharacterActions : MonoBehaviour
             busy = true;
             animator.SetTrigger("LeftLightAttack");
             Debug.Log("LeftLightAttack");
-            attackCollider.enabled = true; //Enable sword attack collider
             this.GetComponent<CharacterStamina>().stamina -= 30; //Edit stamina accordingly
             this.GetComponent<CharacterStamina>().staminaTimer = 1;
             this.GetComponent<CharacterStamina>().loadBar();
-            StartCoroutine(leftLightAttackFinish());
+            StartCoroutine(leftLightAttackMiddle());
         }
+    }
+
+    //Return variables to original values after set amount of time
+    private IEnumerator leftLightAttackMiddle()
+    {
+        yield return new WaitForSeconds(0.2f);
+        attackCollider.enabled = true; //Enable sword attack collider
+        StartCoroutine(leftLightAttackFinish());
     }
 
     //Return variables to original values after set amount of time
     private IEnumerator leftLightAttackFinish()
     {
-        yield return new WaitForSeconds(0.4f);
+        yield return new WaitForSeconds(0.2f);
+        enemiesHit.Clear();
         busy = false;
         attackCollider.enabled = false;
     }
 
     private void OnRightLightAttack()
     {
-        if (this.GetComponent<CharacterStamina>().stamina > 0 && !busy && this.GetComponent<CharacterMovement>().isGrounded)
+        if (this.GetComponent<CharacterStamina>().stamina > 0 && !busy)
         {
             this.GetComponent<CharacterMovement>().canMove = false;
             busy = true;
@@ -117,15 +126,17 @@ public class CharacterActions : MonoBehaviour
         busy = false;
     }
 
+
     //Detect if sword hit anything and apply damage to it if so
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (attackCollider.IsTouching(other))
         {
             EnemyHealth enemy = other.GetComponent<EnemyHealth>();
-            if (enemy != null)
+            if (enemy != null && !enemiesHit.Contains(other.gameObject))
             {
                 enemy.TakeDamage(10, "physical");
+                enemiesHit.Add(other.gameObject);
             }
         }
     }
