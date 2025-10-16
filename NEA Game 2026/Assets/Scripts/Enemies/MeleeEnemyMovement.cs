@@ -41,7 +41,7 @@ public class MeleeEnemyMovement : MonoBehaviour
                 this.transform.localScale = new UnityEngine.Vector3(Math.Abs(this.transform.localScale.x), this.transform.localScale.y, this.transform.localScale.z);
             }
 
-            if (Math.Abs(target.transform.position.x - this.transform.position.x) > 2.25f)
+            if (Math.Abs(target.transform.position.x - this.transform.position.x) > 2f)
             {
                 rb.AddForce(new UnityEngine.Vector3(
                        this.transform.localScale.x / Math.Abs(this.transform.localScale.x) * speedModifier * 30000 * Time.deltaTime, 0, 0));

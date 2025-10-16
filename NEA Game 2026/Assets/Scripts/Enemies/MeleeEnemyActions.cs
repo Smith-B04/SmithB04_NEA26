@@ -27,7 +27,7 @@ public class MeleeEnemyActions : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Math.Abs(this.GetComponent<MeleeEnemyMovement>().target.transform.position.x - this.transform.position.x) < 2.25f && this.GetComponent<MeleeEnemyMovement>().active && !animator.GetBool("Dead") && !busy)
+        if (Math.Abs(this.GetComponent<MeleeEnemyMovement>().target.transform.position.x - this.transform.position.x) < 2f && this.GetComponent<MeleeEnemyMovement>().active && !animator.GetBool("Dead") && !busy)
         {
             StartCoroutine("MeleeAttack");
         }

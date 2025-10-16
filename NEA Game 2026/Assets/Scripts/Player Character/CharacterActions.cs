@@ -12,6 +12,7 @@ public class CharacterActions : MonoBehaviour
 {
     List<GameObject> enemiesHit = new List<GameObject>();
     private SpriteRenderer spriteRenderer;
+    public int maxFlasks;
     public int flasksRemaining;
     public GameObject arrow;
     public bool busy;
@@ -21,7 +22,7 @@ public class CharacterActions : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        flasksRemaining = 3;
+        flasksRemaining = maxFlasks;
         animator = this.GetComponent<Animator>(); //Get the animator
         spriteRenderer = this.GetComponent<SpriteRenderer>();
         attackCollider.enabled = false; //Disable the hitbox made by sword

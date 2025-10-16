@@ -11,8 +11,6 @@ public class AreaTrigger : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        rangedEnemies = this.transform.parent.GetComponentsInChildren<RangedEnemyMovement>();
-        meleeEnemies = this.transform.parent.GetComponentsInChildren<MeleeEnemyMovement>();
         triggered = false;
     }
 
@@ -20,6 +18,8 @@ public class AreaTrigger : MonoBehaviour
     {
         if (other.name == "PlayerCharacter" && !triggered)
         {
+            rangedEnemies = this.transform.parent.GetComponentsInChildren<RangedEnemyMovement>();
+            meleeEnemies = this.transform.parent.GetComponentsInChildren<MeleeEnemyMovement>();
             for (int i = 0; i < rangedEnemies.Count(); i++)
             {
                 rangedEnemies[i].GetComponent<RangedEnemyMovement>().active = true;
