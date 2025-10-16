@@ -11,7 +11,7 @@ public class CharacterHealth : MonoBehaviour
 {
     public UnityEngine.UI.Image healthBar;
     public float maxHealth;
-    private float health;
+    public float health;
     public bool invincible;
 
     // Dictionary of all the available damage types and how much to multiply the amount of health removed by

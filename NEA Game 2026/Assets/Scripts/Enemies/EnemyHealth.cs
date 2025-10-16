@@ -13,6 +13,7 @@ public class EnemyHealth : MonoBehaviour
     public float maxHealth;
     public float health;
     private bool dead;
+    private float deadTimer;
     private Dictionary<string, float> damageResistances = new Dictionary<string, float>
     {
         ["physical"] = 0.5f,
@@ -27,6 +28,7 @@ public class EnemyHealth : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        deadTimer = 1;
         dead = false;
         enemyCollider = this.GetComponent<CapsuleCollider2D>(); //Get enemy collider, rigid body, animator and sprite renderer
         rb = this.GetComponent<Rigidbody2D>();
@@ -38,7 +40,13 @@ public class EnemyHealth : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if (dead) {
+            deadTimer -= Time.deltaTime;
+        }
+        if (deadTimer < 0)
+        {
+            Destroy(this.gameObject);
+        }
     }
 
     public void TakeDamage(int damage, string damageType)

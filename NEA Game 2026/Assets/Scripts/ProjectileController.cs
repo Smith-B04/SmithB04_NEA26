@@ -5,19 +5,35 @@ using UnityEngine;
 
 public class ProjectileController : MonoBehaviour
 {
+    public string type;
     public float projectileSpeed; //Can be changed for different projectiles the script is attached to
     private Rigidbody2D rb;
+    private float timer;
+    private float rotation;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        timer = 5f;
         rb = this.GetComponent<Rigidbody2D>(); //Get the players rigidbody
     }
 
     // Update is called once per frame
     void FixedUpdate()
     {
+        rotation += Time.deltaTime * 75;
+
+        if (type == "Axe")
+        {
+            this.transform.rotation = Quaternion.Euler(this.transform.rotation.x, this.transform.rotation.y, rotation);
+        }
         rb.linearVelocityX = projectileSpeed * this.transform.localScale.x/Mathf.Abs(this.transform.localScale.x); //Move the projectile in the direction it is facing
+        timer -= Time.deltaTime;
+
+        if (timer < 0) 
+        {
+            Destroy(this.gameObject);
+        }
     }
 
     //Deal damage to any enemy hit by the arrow 

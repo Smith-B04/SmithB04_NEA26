@@ -11,6 +11,8 @@ using UnityEngine.InputSystem;
 public class CharacterActions : MonoBehaviour
 {
     List<GameObject> enemiesHit = new List<GameObject>();
+    private SpriteRenderer spriteRenderer;
+    public int flasksRemaining;
     public GameObject arrow;
     public bool busy;
     private Animator animator;
@@ -19,7 +21,9 @@ public class CharacterActions : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        flasksRemaining = 3;
         animator = this.GetComponent<Animator>(); //Get the animator
+        spriteRenderer = this.GetComponent<SpriteRenderer>();
         attackCollider.enabled = false; //Disable the hitbox made by sword
     }
 
@@ -35,6 +39,26 @@ public class CharacterActions : MonoBehaviour
         {
             this.GetComponent<CharacterHealth>().TakeDamage(10, "fire");
         }
+    }
+
+    private void OnFlask()
+    {
+        if (flasksRemaining > 0)
+        {
+            flasksRemaining -= 1;
+            busy = true;
+            spriteRenderer.color = Color.lightGreen;
+            this.GetComponent<CharacterHealth>().health += 50;
+            this.GetComponent<CharacterHealth>().loadBar();
+            StartCoroutine(FlaskFinish());
+        }
+    }
+
+    private IEnumerator FlaskFinish()
+    {
+        yield return new WaitForSeconds(0.5f);
+        busy = false;
+        spriteRenderer.color = Color.white;
     }
 
     private void OnDodge()

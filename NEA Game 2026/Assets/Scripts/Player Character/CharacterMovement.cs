@@ -18,7 +18,7 @@ public class CharacterMovement : MonoBehaviour
     public bool canMove;
     public bool isGrounded;
     private float speedModifier = 0.1f;
-    private float jumpModifier = 300f;
+    private float jumpModifier = 350f;
     private UnityEngine.Vector2 moveInput;
     private UnityEngine.Vector2 mousePos;
 
