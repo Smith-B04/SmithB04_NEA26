@@ -1,7 +1,10 @@
 //Created: Sprint 2
 //Last Edited: Sprint 2
 //Purpose: Control the Health of an enemy
+using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 public class EnemyHealth : MonoBehaviour
@@ -12,8 +15,9 @@ public class EnemyHealth : MonoBehaviour
     private SpriteRenderer sr;
     public float maxHealth;
     public float health;
+    private bool delete;
     private bool dead;
-    private float deadTimer;
+    private float deleteTimer;
     private Dictionary<string, float> damageResistances = new Dictionary<string, float>
     {
         ["physical"] = 0.5f,
@@ -28,7 +32,8 @@ public class EnemyHealth : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        deadTimer = 1;
+        deleteTimer = 1;
+        delete = false;
         dead = false;
         enemyCollider = this.GetComponent<CapsuleCollider2D>(); //Get enemy collider, rigid body, animator and sprite renderer
         rb = this.GetComponent<Rigidbody2D>();
@@ -40,10 +45,10 @@ public class EnemyHealth : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (dead) {
-            deadTimer -= Time.deltaTime;
+        if (delete && dead) {
+            deleteTimer -= Time.deltaTime;
         }
-        if (deadTimer < 0)
+        if (deleteTimer < 0 && dead)
         {
             Destroy(this.gameObject);
         }
@@ -53,11 +58,34 @@ public class EnemyHealth : MonoBehaviour
     {
         health -= (float)(damage * damageResistances[damageType]);
         animator.SetTrigger("Hurt");
+        if (this.GetComponent<RangedEnemyActions>() != null) 
+        {
+            this.GetComponent<RangedEnemyActions>().busy = true; 
+        }
+        else 
+        { 
+            this.GetComponent<MeleeEnemyActions>().busy = true; 
+        }
         if (health <= 0f)
         {
             animator.SetBool("Dead", true);
             enemyCollider.size = new Vector2(0.1f,0.1f);
             dead = true;
+            delete = true;
+        }
+        StartCoroutine(HurtWait());
+    }
+
+    private IEnumerator HurtWait()
+    {
+        yield return new WaitForSeconds(1.5f);
+        if (this.GetComponent<RangedEnemyActions>() != null)
+        {
+            this.GetComponent<RangedEnemyActions>().busy = false;
+        }
+        else
+        {
+            this.GetComponent<MeleeEnemyActions>().busy = false;
         }
     }
 
@@ -67,6 +95,7 @@ public class EnemyHealth : MonoBehaviour
         {
             if (dead)
             {
+                delete = false;
                 rb.simulated = false;
                 sr.sortingOrder = -1;
             }

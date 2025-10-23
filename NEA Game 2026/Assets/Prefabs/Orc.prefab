@@ -18,7 +18,7 @@ GameObject:
   - component: {fileID: 8796516582321367546}
   - component: {fileID: 6559076159094507453}
   - component: {fileID: 4138417333000532651}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Orc
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -133,8 +133,8 @@ CapsuleCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: -0.043606006, y: -0.0068134787}
-  m_Size: {x: 0.11463275, y: 0.15006262}
+  m_Offset: {x: -0.04782791, y: -0.003098173}
+  m_Size: {x: 0.09605633, y: 0.15749314}
   m_Direction: 0
 --- !u!61 &5737128113617893190
 BoxCollider2D:
@@ -170,7 +170,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: -0.045649957, y: -0.07232548}
+  m_Offset: {x: -0.044817165, y: -0.072047554}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -180,7 +180,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 0.07238942, y: 0.028486617}
+  m_Size: {x: 0.049347382, y: 0.027930766}
   m_EdgeRadius: 0
 --- !u!61 &1629132718745938792
 BoxCollider2D:
@@ -243,7 +243,7 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDamping: 0.05
   m_AngularDamping: 0.05
-  m_GravityScale: 1
+  m_GravityScale: 1.5
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2

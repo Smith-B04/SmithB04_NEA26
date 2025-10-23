@@ -44,12 +44,12 @@ public class CharacterActions : MonoBehaviour
 
     private void OnFlask()
     {
-        if (flasksRemaining > 0)
+        if (flasksRemaining > 0 && !busy)
         {
             flasksRemaining -= 1;
             busy = true;
             spriteRenderer.color = Color.lightGreen;
-            this.GetComponent<CharacterHealth>().health += 50;
+            this.GetComponent<CharacterHealth>().health = (this.GetComponent<CharacterHealth>().health + 50 < this.GetComponent<CharacterHealth>().maxHealth) ? this.GetComponent<CharacterHealth>().health + 50 : this.GetComponent<CharacterHealth>().maxHealth;
             this.GetComponent<CharacterHealth>().loadBar();
             StartCoroutine(FlaskFinish());
         }
@@ -139,11 +139,11 @@ public class CharacterActions : MonoBehaviour
         GameObject newArrow = Instantiate(
                 arrow,
                 new Vector2(
-                    this.transform.position.x + 1.75f * this.transform.localScale.x / Math.Abs(this.transform.localScale.x),
+                    this.transform.position.x + 1.75f * Math.Sign(this.transform.localScale.x),
                     this.transform.position.y),
                 Quaternion.identity); //Instantiate arrow
         newArrow.transform.localScale = new Vector3(
-            this.transform.localScale.x / Math.Abs(this.transform.localScale.x) * newArrow.transform.localScale.x,
+            Math.Sign(this.transform.localScale.x) * newArrow.transform.localScale.x,
             newArrow.transform.localScale.y, 
             newArrow.transform.localScale.z
             ); //Change arrows starting direction to the same as the player

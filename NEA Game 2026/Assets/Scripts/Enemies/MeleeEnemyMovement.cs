@@ -2,6 +2,7 @@
 //Last Edited: Sprint 3
 //Purpose: Control the movement of an enemy
 
+using JetBrains.Annotations;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -16,12 +17,15 @@ public class MeleeEnemyMovement : MonoBehaviour
     private Rigidbody2D rb;
     public bool isGrounded;
     private float speedModifier = 0.1f;
-    private float jumpModifier = 300f;
+    private float jumpModifier = 475f;
     public bool active;
+    private int terrainMask;
+    private int flippedDirection;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        terrainMask = LayerMask.GetMask("Ground");
         active = false;
         rb = this.GetComponent<Rigidbody2D>(); //Get the players rigidbody and animator
         animator = this.GetComponent<Animator>();
@@ -35,17 +39,37 @@ public class MeleeEnemyMovement : MonoBehaviour
             if (target.transform.position.x < this.transform.position.x)
             {
                 this.transform.localScale = new UnityEngine.Vector3(-1 * Math.Abs(this.transform.localScale.x), this.transform.localScale.y, this.transform.localScale.z);
+                if (flippedDirection != -1)
+                {
+                    this.transform.position = this.transform.position + new UnityEngine.Vector3(-1f, 0, 0);
+                    flippedDirection = -1;
+                }
             }
             else
             {
                 this.transform.localScale = new UnityEngine.Vector3(Math.Abs(this.transform.localScale.x), this.transform.localScale.y, this.transform.localScale.z);
+                if (flippedDirection != 1)
+                {
+                    this.transform.position = this.transform.position + new UnityEngine.Vector3(1f, 0, 0);
+                    flippedDirection = 1;
+                }
             }
 
             if (Math.Abs(target.transform.position.x - this.transform.position.x) > 2f)
             {
                 rb.AddForce(new UnityEngine.Vector3(
-                       this.transform.localScale.x / Math.Abs(this.transform.localScale.x) * speedModifier * 30000 * Time.deltaTime, 0, 0));
+                       Math.Sign(this.transform.localScale.x) * speedModifier * 30000 * Time.deltaTime, 0, 0));
                 animator.SetBool("Walking", true);
+
+                RaycastHit2D obstacleHit = Physics2D.Raycast(footCollider.transform.position + new UnityEngine.Vector3(0, -0.1f, 0), UnityEngine.Vector2.right * Mathf.Sign(this.gameObject.transform.localScale.x), 2f, terrainMask);
+                if (obstacleHit.collider != null) //raycast from feet forwards for the jump over obstical and raycast from feet diagonally down 45 degrees to jump over gap.
+                {
+                    Debug.Log("Enemy jump!");
+                    if (isGrounded)
+                    {
+                        rb.AddForce(new UnityEngine.Vector3(0, jumpModifier, 0));
+                    }
+                }
             }
             else
             {
@@ -56,16 +80,6 @@ public class MeleeEnemyMovement : MonoBehaviour
         else
         {
             rb.linearVelocityX = 0;
-        }
-
-        RaycastHit2D gapHit = Physics2D.Raycast(footCollider.transform.position, new UnityEngine.Vector2(1.4f, -1.4f), 0.1f);
-        Debug.DrawRay(footCollider.transform.position, new UnityEngine.Vector2(1.4f, -1.4f), Color.green, 5f);
-        if (!gapHit) //raycast from feet forwards for the jump over obstical and raycast from feet diagonally down 45 degrees to jump over gap.
-        {
-            if (isGrounded)
-            {
-                rb.AddForce(new UnityEngine.Vector3(0, jumpModifier, 0));
-            }
         }
     }
 

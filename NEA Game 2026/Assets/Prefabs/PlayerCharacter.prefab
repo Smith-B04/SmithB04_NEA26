@@ -398,7 +398,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea97e93321af37644bfb4afe2c66d2ce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CharacterActions
-  maxFlasks: 0
+  maxFlasks: 3
   flasksRemaining: 0
   arrow: {fileID: 731241499337200797, guid: 18c0c1778fdc8724ab645e27aa65cfbc, type: 3}
   busy: 0
