@@ -93,7 +93,7 @@ public class CharacterActions : MonoBehaviour
             busy = true;
             animator.SetTrigger("LeftLightAttack");
             Debug.Log("LeftLightAttack");
-            this.GetComponent<CharacterStamina>().stamina -= 30; //Edit stamina accordingly
+            this.GetComponent<CharacterStamina>().stamina -= 20; //Edit stamina accordingly
             this.GetComponent<CharacterStamina>().staminaTimer = 1;
             this.GetComponent<CharacterStamina>().loadBar();
             StartCoroutine(leftLightAttackMiddle());
@@ -103,7 +103,7 @@ public class CharacterActions : MonoBehaviour
     //Return variables to original values after set amount of time
     private IEnumerator leftLightAttackMiddle()
     {
-        yield return new WaitForSeconds(0.2f);
+        yield return new WaitForSeconds(0.1f);
         attackCollider.enabled = true; //Enable sword attack collider
         StartCoroutine(leftLightAttackFinish());
     }
@@ -111,7 +111,7 @@ public class CharacterActions : MonoBehaviour
     //Return variables to original values after set amount of time
     private IEnumerator leftLightAttackFinish()
     {
-        yield return new WaitForSeconds(0.2f);
+        yield return new WaitForSeconds(0.1f);
         enemiesHit.Clear();
         busy = false;
         attackCollider.enabled = false;

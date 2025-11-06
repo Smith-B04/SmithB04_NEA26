@@ -1,6 +1,7 @@
 //Created: Sprint 2
-//Last Edited: Sprint 2
+//Last Edited: Sprint 3
 //Purpose: Control the Health of an enemy
+
 using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;

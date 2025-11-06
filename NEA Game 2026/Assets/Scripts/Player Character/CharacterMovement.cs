@@ -64,10 +64,14 @@ public class CharacterMovement : MonoBehaviour
         }
 
         //Stop velocity when swapping directions
-        if ((!(Input.GetKey(KeyCode.A)) && !(Input.GetKey(KeyCode.D))) || ((Input.GetKey(KeyCode.A)) && (Input.GetKey(KeyCode.D))))
+        if ((!(Input.GetKey(KeyCode.A)) && !(Input.GetKey(KeyCode.D))))
         {
             rb.linearVelocityX = 0;
             animator.SetBool("isWalking", false);
+        }
+        else if ((Input.GetKey(KeyCode.A)) && (Input.GetKey(KeyCode.D)))
+        {
+            rb.linearVelocityX = 0;
         }
         else if ((Input.GetKey(KeyCode.D)) && (rb.linearVelocity.x < 0))
         {

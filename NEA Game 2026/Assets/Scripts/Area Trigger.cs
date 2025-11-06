@@ -1,3 +1,7 @@
+//Created: Sprint 3
+//Last Edited: Sprint 3
+//Purpose: Activate enemies when the player enters area.
+
 using System.Linq;
 using UnityEngine;
 

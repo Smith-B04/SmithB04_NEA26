@@ -1,3 +1,7 @@
+//Created: Sprint 3
+//Last Edited: Sprint 3
+//Purpose: Control Sites of Grace.
+
 using UnityEngine;
 
 public class GraceController : MonoBehaviour

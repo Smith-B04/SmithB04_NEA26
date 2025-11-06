@@ -1,6 +1,7 @@
 //Created: Sprint 2
-//Last Edited: Sprint 2
+//Last Edited: Sprint 3
 //Purpose: Control any projectile used by any character.
+
 using UnityEngine;
 
 public class ProjectileController : MonoBehaviour
