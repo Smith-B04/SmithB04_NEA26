@@ -54,7 +54,7 @@ public class EnemyHealth : MonoBehaviour
         }
     }
 
-    public void TakeDamage(int damage, string damageType)
+    public void TakeDamage(float damage, string damageType)
     {
         health -= (float)(damage * damageResistances[damageType]);
         animator.SetTrigger("Hurt");

@@ -18,6 +18,7 @@ public class CharacterActions : MonoBehaviour
     public bool busy;
     private Animator animator;
     public Collider2D attackCollider;
+    public float swordDamage = 10f;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -160,7 +161,7 @@ public class CharacterActions : MonoBehaviour
             EnemyHealth enemy = other.GetComponent<EnemyHealth>();
             if (enemy != null && !enemiesHit.Contains(other.gameObject))
             {
-                enemy.TakeDamage(10, "physical");
+                enemy.TakeDamage(swordDamage, "physical");
                 enemiesHit.Add(other.gameObject);
             }
         }

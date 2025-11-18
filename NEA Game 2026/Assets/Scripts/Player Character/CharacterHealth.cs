@@ -17,7 +17,7 @@ public class CharacterHealth : MonoBehaviour
     private Animator animator;
 
     // Dictionary of all the available damage types and how much to multiply the amount of health removed by
-    private Dictionary<string, float> damageResistances = new Dictionary<string, float>
+    public Dictionary<string, float> damageResistances = new Dictionary<string, float>
     {
         ["physical"] = 0.5f,
         ["fire"] = 1f,
@@ -43,7 +43,7 @@ public class CharacterHealth : MonoBehaviour
     }
 
     //Applies damage multiplied by resistance modifier unless character is currently invincible
-    public void TakeDamage(int damage, string /*change to set type*/ damageType)
+    public void TakeDamage(float damage, string /*change to set type*/ damageType)
     {
         if (invincible != true)
         {
