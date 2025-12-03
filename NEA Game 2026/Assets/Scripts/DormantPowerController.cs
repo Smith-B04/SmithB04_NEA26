@@ -1,8 +1,9 @@
 //Created: Sprint 4
-//Last Edited: Sprint 4
+//Last Edited: Sprint 5
 //Purpose: Control Dormant Powerz.
 
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using TMPro;
 using UnityEngine;
@@ -38,11 +39,18 @@ public class DormantPowerController : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        canvas = Instantiate(canvas, playerCollider.gameObject.transform);
+        canvas.renderMode = RenderMode.ScreenSpaceCamera;
         buttons = canvas.GetComponentsInChildren<Button>();
-        canvas.scaleFactor = 0f;
+        canvas.enabled = false;
         interactable = false;
         open = false;
         active = true;
+
+        for (int i = 0; i < buttons.Count(); i++)
+        {
+            buttons[i].onClick.AddListener(OnClick);
+        }
     }
 
     // Update is called once per frame
@@ -57,7 +65,7 @@ public class DormantPowerController : MonoBehaviour
         {
             if (active)
             {
-                prompt.text = "Interact [E]";
+                prompt.text = "Interact";
             }
             interactable = true;
         }
@@ -76,7 +84,7 @@ public class DormantPowerController : MonoBehaviour
         if (other == playerCollider)
         {
             prompt.text = "";
-            canvas.scaleFactor = 0f;
+            canvas.enabled = false;
             interactable = false;
             playerCollider.gameObject.GetComponent<CharacterActions>().busy = false;
         }
@@ -87,8 +95,8 @@ public class DormantPowerController : MonoBehaviour
         if (interactable && !open && active)
         {
             open = true;
-            canvas.scaleFactor = 1.0f;
-            prompt.text = "Close [E]";
+            canvas.enabled = true;
+            prompt.text = "";
             playerCollider.gameObject.GetComponent<CharacterActions>().busy = true;
             for (int i = 0; i < buttons.Count(); i++)
             {
@@ -104,10 +112,10 @@ public class DormantPowerController : MonoBehaviour
         else if (interactable && open) 
         {
             open = false;
-            canvas.scaleFactor = 0.0f;
+            canvas.enabled = false;
             if (active)
             {
-                prompt.text = "Interact [E]";
+                prompt.text = "Interact";
             }
             playerCollider.gameObject.GetComponent<CharacterActions>().busy = false;
         }
@@ -142,8 +150,8 @@ public class DormantPowerController : MonoBehaviour
                 }
             }
         }
-        canvas.scaleFactor = 0.0f;
-        //active = false;
+        playerCollider.gameObject.GetComponent<CharacterActions>().busy = false;
+        canvas.enabled = false;
         prompt.text = "";
 
         for (int i = 0; i < buttons.Count(); i++)

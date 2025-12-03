@@ -13,8 +13,8 @@ public class EnemyHealth : MonoBehaviour
     private Rigidbody2D rb;
     private Animator animator;
     private SpriteRenderer sr;
-    public float maxHealth;
-    public float health;
+    private float maxHealth = 15;
+    private float health;
     private bool delete;
     private bool dead;
     private float deleteTimer;

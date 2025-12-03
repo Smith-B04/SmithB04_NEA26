@@ -18,6 +18,7 @@ public class CharacterStamina : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        maxStamina = PlayerPrefs.GetInt("MaxStamina");
         stamina = maxStamina; //starts stamina at max value
     }
 

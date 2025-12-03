@@ -7,6 +7,7 @@ using UnityEngine.UIElements;
 using UnityEngine;
 using System.Collections.Generic;
 using System.Collections;
+using UnityEngine.SceneManagement;
 
 public class CharacterHealth : MonoBehaviour
 {
@@ -22,15 +23,19 @@ public class CharacterHealth : MonoBehaviour
         ["physical"] = 0.5f,
         ["fire"] = 1f,
         ["magic"] = 1f,
-        ["lightning"] = 1f,
-        ["holy"] = 1f,
-        ["frost"] = 1f,
-        ["poison"] = 1f,
+        //["lightning"] = 1f,
+        //["holy"] = 1f,
+        //["frost"] = 1f,
+        //["poison"] = 1f,
     };
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        damageResistances["physical"] = PlayerPrefs.GetFloat("Physical");
+        damageResistances["Fire"] = PlayerPrefs.GetFloat("Fire");
+        damageResistances["Magic"] = PlayerPrefs.GetFloat("Magic");
+        maxHealth = PlayerPrefs.GetInt("MaxHealth");
         invincible = false; //starts character as not invincible
         health = maxHealth; //starts health at max value
         animator = this.GetComponent<Animator>(); //Get the animator
@@ -65,5 +70,9 @@ public class CharacterHealth : MonoBehaviour
     public void loadBar()
     {
         healthBar.fillAmount = health / maxHealth;
+        if (health <= 0)
+        {
+            SceneManager.LoadScene("Death Screen");
+        }
     }
 }

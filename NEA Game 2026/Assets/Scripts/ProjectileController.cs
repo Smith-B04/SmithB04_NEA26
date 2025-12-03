@@ -45,12 +45,12 @@ public class ProjectileController : MonoBehaviour
         if (enemy != null)
         {
             Debug.Log("Hit enemy");
-            enemy.TakeDamage(20, "physical");
+            enemy.TakeDamage(10, "physical");
         }
         if (player != null)
         {
             Debug.Log("Hit player");
-            player.TakeDamage(20, "physical");
+            player.TakeDamage(10, "physical");
         }
 
         Destroy(this.gameObject); //Destroy arrow in collision

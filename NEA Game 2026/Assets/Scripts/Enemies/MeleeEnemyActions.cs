@@ -80,7 +80,7 @@ public class MeleeEnemyActions : MonoBehaviour
             CharacterHealth player = other.GetComponent<CharacterHealth>();
             if (player != null && !enemiesHit.Contains(other.gameObject))
             {
-                player.TakeDamage(40, "physical");
+                player.TakeDamage(15, "physical");
                 enemiesHit.Add(other.gameObject);
             }
         }

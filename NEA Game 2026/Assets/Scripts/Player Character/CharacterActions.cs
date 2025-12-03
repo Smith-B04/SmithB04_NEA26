@@ -18,28 +18,43 @@ public class CharacterActions : MonoBehaviour
     public bool busy;
     private Animator animator;
     public Collider2D attackCollider;
-    public float swordDamage = 10f;
+    public float swordDamage;
+    public Canvas settings;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        maxFlasks = PlayerPrefs.GetInt("MaxFlasks");
         flasksRemaining = maxFlasks;
         animator = this.GetComponent<Animator>(); //Get the animator
         spriteRenderer = this.GetComponent<SpriteRenderer>();
+        swordDamage = PlayerPrefs.GetInt("SwordDamage");
+        Debug.Log(swordDamage);
         attackCollider.enabled = false; //Disable the hitbox made by sword
     }
 
     // Update is called once per frame
     void Update()
     {
-        //Test Keys for taking damage
-        if (Input.GetKeyDown(KeyCode.P))
+        ////Test Keys for taking damage
+        //if (Input.GetKeyDown(KeyCode.P))
+        //{
+        //    this.GetComponent<CharacterHealth>().TakeDamage(10, "physical");
+        //}
+        //if (Input.GetKeyDown(KeyCode.O))
+        //{
+        //    this.GetComponent<CharacterHealth>().TakeDamage(10, "fire");
+        //}
+        if (Input.GetKeyDown(KeyCode.Escape)) 
         {
-            this.GetComponent<CharacterHealth>().TakeDamage(10, "physical");
+            settings.enabled = true;
+            Time.timeScale = 0f;
         }
-        if (Input.GetKeyDown(KeyCode.O))
+
+        Canvas[] canvases = this.GetComponents<Canvas>();
+        foreach (Canvas c in canvases)
         {
-            this.GetComponent<CharacterHealth>().TakeDamage(10, "fire");
+            c.enabled = !settings.enabled;
         }
     }
 
@@ -93,7 +108,7 @@ public class CharacterActions : MonoBehaviour
         {
             busy = true;
             animator.SetTrigger("LeftLightAttack");
-            Debug.Log("LeftLightAttack");
+            //Debug.Log("LeftLightAttack");
             this.GetComponent<CharacterStamina>().stamina -= 20; //Edit stamina accordingly
             this.GetComponent<CharacterStamina>().staminaTimer = 1;
             this.GetComponent<CharacterStamina>().loadBar();
