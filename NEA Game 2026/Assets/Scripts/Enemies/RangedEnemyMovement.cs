@@ -15,8 +15,8 @@ public class RangedEnemyMovement : MonoBehaviour
     public GameObject target;
     private Rigidbody2D rb;
     public bool isGrounded;
-    private float speedModifier = 0.1f;
-    private float jumpModifier = 300f;
+    public float speedModifier = 0.1f;
+    public float jumpModifier = 475f;
     public bool active;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created

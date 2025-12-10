@@ -17,14 +17,16 @@ public class CharacterMovement : MonoBehaviour
     public bool sprinting;
     public bool canMove;
     public bool isGrounded;
-    private float speedModifier = 0.1f;
-    private float jumpModifier = 350f;
+    public float speedModifier = 0.1f;
+    public float jumpModifier = 350f;
     private UnityEngine.Vector2 moveInput;
     private UnityEngine.Vector2 mousePos;
+    public float velocityCap;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        velocityCap = 5f;
         canMove = true; //Player can move at start of the game
         sprinting = false; //Starts sprinting as false
         rb = this.GetComponent<Rigidbody2D>(); //Get the players rigidbody and animator
@@ -47,7 +49,7 @@ public class CharacterMovement : MonoBehaviour
         }
 
         //Find if the character can move and set a maximum velocity they can have dependent on whether they're sprinting or not
-        if (Math.Abs(rb.linearVelocity.x) < (sprinting ? 7.5 : 5) && canMove)
+        if (Math.Abs(rb.linearVelocity.x) < (sprinting ? 1.5 * velocityCap : velocityCap) && canMove)
         {
             animator.SetBool("isWalking", true); //Animate walking
             //Adding different amounts of force based on whether the character is sprinting or in the air

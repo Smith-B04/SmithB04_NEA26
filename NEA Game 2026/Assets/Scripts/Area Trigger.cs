@@ -11,10 +11,12 @@ public class AreaTrigger : MonoBehaviour
     private bool triggered;
     private RangedEnemyMovement[] rangedEnemies;
     private MeleeEnemyMovement[] meleeEnemies;
+    private AudioSource audioSource;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        audioSource = GetComponent<AudioSource>();
         triggered = false;
     }
 
@@ -32,6 +34,7 @@ public class AreaTrigger : MonoBehaviour
             {
                 meleeEnemies[i].GetComponent<MeleeEnemyMovement>().active = true;
             }
+            audioSource.Play();
             triggered = true;
         }
     }

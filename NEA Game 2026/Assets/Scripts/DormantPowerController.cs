@@ -19,6 +19,7 @@ public class DormantPowerController : MonoBehaviour
     private bool open;
     private Button[] buttons;
     private bool active;
+    private AudioSource audioSource;
 
     public class UpgradeInfo
     {
@@ -39,6 +40,7 @@ public class DormantPowerController : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        audioSource = this.GetComponent<AudioSource>();
         canvas = Instantiate(canvas, playerCollider.gameObject.transform);
         canvas.renderMode = RenderMode.ScreenSpaceCamera;
         buttons = canvas.GetComponentsInChildren<Button>();
@@ -153,6 +155,7 @@ public class DormantPowerController : MonoBehaviour
         playerCollider.gameObject.GetComponent<CharacterActions>().busy = false;
         canvas.enabled = false;
         prompt.text = "";
+        audioSource.Play();
 
         for (int i = 0; i < buttons.Count(); i++)
         {

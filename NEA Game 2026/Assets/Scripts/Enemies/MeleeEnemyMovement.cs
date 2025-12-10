@@ -16,8 +16,8 @@ public class MeleeEnemyMovement : MonoBehaviour
     public GameObject target;
     private Rigidbody2D rb;
     public bool isGrounded;
-    private float speedModifier = 0.1f;
-    private float jumpModifier = 475f;
+    public float speedModifier = 0.1f;
+    public float jumpModifier = 475f;
     public bool active;
     private int terrainMask;
     private int flippedDirection;

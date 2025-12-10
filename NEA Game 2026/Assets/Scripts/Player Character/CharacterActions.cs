@@ -67,6 +67,7 @@ public class CharacterActions : MonoBehaviour
             spriteRenderer.color = Color.lightGreen;
             this.GetComponent<CharacterHealth>().health = (this.GetComponent<CharacterHealth>().health + 50 < this.GetComponent<CharacterHealth>().maxHealth) ? this.GetComponent<CharacterHealth>().health + 50 : this.GetComponent<CharacterHealth>().maxHealth;
             this.GetComponent<CharacterHealth>().loadBar();
+            this.GetComponent<SoundManager>().HealSound();
             StartCoroutine(FlaskFinish());
         }
     }

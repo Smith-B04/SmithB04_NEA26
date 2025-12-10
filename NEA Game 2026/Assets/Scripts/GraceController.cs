@@ -6,10 +6,12 @@ using UnityEngine;
 
 public class GraceController : MonoBehaviour
 {
+    private AudioSource audioSource;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        
+        audioSource = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -27,6 +29,7 @@ public class GraceController : MonoBehaviour
             player.gameObject.GetComponent<CharacterActions>().flasksRemaining = player.gameObject.GetComponent<CharacterActions>().maxFlasks;
             player.invincible = true;
             player.loadBar();
+            audioSource.Play();
         }
     }
 
