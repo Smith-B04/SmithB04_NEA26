@@ -1,12 +1,16 @@
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class DeathScreenButton : MonoBehaviour
 {
+    public TextMeshProUGUI textBox;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        this.GetComponent<PlayerPrefScript>().ResetPrefs();
+        textBox.text = "SCORE: " + (PlayerPrefs.GetInt("Score")).ToString();
+        this.GetComponent<PlayerPrefScript>().ResetPrefs();   
     }
 
     // Update is called once per frame

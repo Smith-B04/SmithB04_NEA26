@@ -65,6 +65,8 @@ public class ReturnTreeControlle : MonoBehaviour
             PlayerPrefs.SetFloat("Magic", (playerCollider.gameObject.GetComponent<CharacterHealth>().damageResistances["magic"]));
             PlayerPrefs.SetInt("SwordDamage", (int)(playerCollider.gameObject.GetComponent<CharacterActions>().swordDamage));
             PlayerPrefs.SetString("LevelsBeaten", PlayerPrefs.GetString("LevelsBeaten") + level);
+            int newScore = PlayerPrefs.GetInt("Score") + 100;
+            PlayerPrefs.SetInt("Score", newScore);
             PlayerPrefs.Save();
             audioSource.Play();
             playerCollider.gameObject.GetComponent<SpriteRenderer>().color = new Color32(0, 0, 0, 0);

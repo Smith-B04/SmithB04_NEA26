@@ -669,6 +669,12 @@ Transform:
   - {fileID: 975507075}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!20 &358475271 stripped
+Camera:
+  m_CorrespondingSourceObject: {fileID: 8037311449999735238, guid: 7ccbefa65a6b3f64894604a619ded286,
+    type: 3}
+  m_PrefabInstance: {fileID: 8632334806086413385}
+  m_PrefabAsset: {fileID: 0}
 --- !u!223 &363855772 stripped
 Canvas:
   m_CorrespondingSourceObject: {fileID: 5662201328789059058, guid: 977369c9b8b0211449cc6c3c2e024fd5,
@@ -1509,6 +1515,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5662201328789059058, guid: 977369c9b8b0211449cc6c3c2e024fd5,
+        type: 3}
+      propertyPath: m_Camera
+      value: 
+      objectReference: {fileID: 358475271}
     - target: {fileID: 6226212951772857307, guid: 977369c9b8b0211449cc6c3c2e024fd5,
         type: 3}
       propertyPath: playerInput
@@ -65777,7 +65788,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 1.6635132, y: 0.35039568}
+  m_Offset: {x: 3.6440277, y: 0.35039568}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -65787,7 +65798,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 8.475449, y: 7.455903}
+  m_Size: {x: 12.436478, y: 7.455903}
   m_EdgeRadius: 0
 --- !u!1 &1965263687
 GameObject:
@@ -66059,6 +66070,11 @@ PrefabInstance:
       propertyPath: settings
       value: 
       objectReference: {fileID: 363855772}
+    - target: {fileID: 4235735384364731736, guid: 15e56a79830867443a0486bdc63c8fe4,
+        type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 250
+      objectReference: {fileID: 0}
     - target: {fileID: 4800813266230165145, guid: 15e56a79830867443a0486bdc63c8fe4,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -66109,6 +66125,16 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5206276105580028968, guid: 15e56a79830867443a0486bdc63c8fe4,
+        type: 3}
+      propertyPath: m_Camera
+      value: 
+      objectReference: {fileID: 358475271}
+    - target: {fileID: 5451821201427158438, guid: 15e56a79830867443a0486bdc63c8fe4,
+        type: 3}
+      propertyPath: m_Camera
+      value: 
+      objectReference: {fileID: 358475271}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

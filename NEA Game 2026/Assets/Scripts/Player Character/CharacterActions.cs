@@ -56,6 +56,8 @@ public class CharacterActions : MonoBehaviour
         {
             c.enabled = !settings.enabled;
         }
+
+        //Debug.Log(PlayerPrefs.GetInt("Score"));
     }
 
     private void OnFlask()

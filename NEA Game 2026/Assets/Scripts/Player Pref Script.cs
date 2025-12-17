@@ -12,6 +12,7 @@ public class PlayerPrefScript : MonoBehaviour
         PlayerPrefs.SetFloat("Fire", 1);
         PlayerPrefs.SetFloat("Magic", 1);
         PlayerPrefs.SetInt("SwordDamage", 15);
+        PlayerPrefs.SetInt("Score", 0);
         PlayerPrefs.SetString("LevelsBeaten", "");
         PlayerPrefs.SetInt("NewGameStarted", 0);
         PlayerPrefs.Save();

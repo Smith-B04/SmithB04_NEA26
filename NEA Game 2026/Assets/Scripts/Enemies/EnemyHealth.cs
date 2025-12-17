@@ -6,6 +6,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.SocialPlatforms.Impl;
 
 public class EnemyHealth : MonoBehaviour
 {
@@ -70,6 +71,11 @@ public class EnemyHealth : MonoBehaviour
         {
             animator.SetBool("Dead", true);
             enemyCollider.size = new Vector2(0.1f,0.1f);
+            if (dead == false)
+            {
+                int newScore = PlayerPrefs.GetInt("Score") + 10;
+                PlayerPrefs.SetInt("Score", newScore);
+            }
             dead = true;
             delete = true;
         }
