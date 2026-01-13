@@ -38,8 +38,8 @@ public class CharacterMovement : MonoBehaviour
     {
         mousePos = Input.mousePosition;
 
-        //Find the position of the mouse on the screen and if past the midpoint flip character scale to change the direction its facing
-        if (mousePos.x < Screen.width / 2)
+        //Find the position of the mouse on the screen convert it to a world position and if past the midpoint flip character scale to change the direction its facing
+        if (Camera.main.ScreenToWorldPoint(mousePos).x < this.transform.localPosition.x)
         {
             this.transform.localScale = new UnityEngine.Vector3(-1 * Math.Abs(this.transform.localScale.x), this.transform.localScale.y, this.transform.localScale.z);
         }

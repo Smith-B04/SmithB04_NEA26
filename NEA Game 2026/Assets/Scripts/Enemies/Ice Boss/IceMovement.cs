@@ -2,27 +2,30 @@
 //Last Edited: Sprint 3
 //Purpose: Control the movement of an enemy
 
+using JetBrains.Annotations;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Numerics;
 using UnityEngine;
 
-public class RangedEnemyMovement : MonoBehaviour
+public class IceMovement : MonoBehaviour
 {
     public Collider2D footCollider;
     private Animator animator;
     public GameObject target;
     private Rigidbody2D rb;
     public bool isGrounded;
-    public float speedModifier = 0.1f;
-    public float jumpModifier = 475f;
+    public float speedModifier = 5f;
     public bool active;
+    private int terrainMask;
+    private int flippedDirection;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        active = false;
+        terrainMask = LayerMask.GetMask("Ground");
+        active = true;
         rb = this.GetComponent<Rigidbody2D>(); //Get the players rigidbody and animator
         animator = this.GetComponent<Animator>();
     }
@@ -30,21 +33,31 @@ public class RangedEnemyMovement : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        if (active && Math.Abs(rb.linearVelocityX) < 5 && !animator.GetBool("Dead"))
+        if (active && Math.Abs(rb.linearVelocityX) < 3 && !animator.GetBool("Dead"))
         {
             if (target.transform.position.x < this.transform.position.x)
             {
                 this.transform.localScale = new UnityEngine.Vector3(-1 * Math.Abs(this.transform.localScale.x), this.transform.localScale.y, this.transform.localScale.z);
+                if (flippedDirection != -1)
+                {
+                    this.transform.position = this.transform.position + new UnityEngine.Vector3(-1f, 0, 0);
+                    flippedDirection = -1;
+                }
             }
             else
             {
-                this.transform.localScale = new UnityEngine.Vector3(Math.Abs(this.transform.localScale.x), this.transform.localScale.y, this.transform.localScale.z);
+                this.transform.localScale = new UnityEngine.Vector3(1 * Math.Abs(this.transform.localScale.x), this.transform.localScale.y, this.transform.localScale.z);
+                if (flippedDirection != 1)
+                {
+                    this.transform.position = this.transform.position + new UnityEngine.Vector3(1f, 0, 0);
+                    flippedDirection = 1;
+                }
             }
 
-            if (Math.Abs(target.transform.position.x - this.transform.position.x) < 4f && Math.Abs(target.transform.position.y - this.transform.position.y) < 3f)
+            if (Math.Abs(target.transform.position.x - this.transform.position.x) > 10f)
             {
                 rb.AddForce(new UnityEngine.Vector3(
-                       this.transform.localScale.x / Math.Abs(this.transform.localScale.x) * speedModifier * -20000 * Time.deltaTime, 0, 0));
+                       Math.Sign(this.transform.localScale.x) * speedModifier * 30000 * Time.deltaTime, 0, 0));
                 animator.SetBool("Walking", true);
             }
             else
@@ -55,17 +68,7 @@ public class RangedEnemyMovement : MonoBehaviour
         }
         else
         {
-            rb.linearVelocityX = 0;
-        }
-
-        RaycastHit2D gapHit = Physics2D.Raycast(footCollider.transform.position, new UnityEngine.Vector2(1.4f, -1.4f), 0.1f);
-        Debug.DrawRay(footCollider.transform.position, new UnityEngine.Vector2(1.4f, -1.4f), Color.green, 5f);
-        if (!gapHit) //raycast from feet forwards for the jump over obstical and raycast from feet diagonally down 45 degrees to jump over gap.
-        {
-            if (isGrounded)
-            {
-                rb.AddForce(new UnityEngine.Vector3(0, jumpModifier, 0));
-            }
+            //rb.linearVelocityX = 0;
         }
     }
 

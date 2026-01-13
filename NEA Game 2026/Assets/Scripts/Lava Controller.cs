@@ -52,7 +52,6 @@ public class LavaController : MonoBehaviour
             else if (ranged != null)
             {
                 ranged.speedModifier = 0.05f;
-                ranged.jumpModifier = 233f;
             }
         }
     }
@@ -80,7 +79,6 @@ public class LavaController : MonoBehaviour
             else if (ranged != null)
             {
                 ranged.speedModifier = 0.1f;
-                ranged.jumpModifier = 475f;
             }
         }
     }

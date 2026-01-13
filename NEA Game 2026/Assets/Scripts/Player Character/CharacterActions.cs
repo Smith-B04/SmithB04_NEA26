@@ -29,7 +29,6 @@ public class CharacterActions : MonoBehaviour
         animator = this.GetComponent<Animator>(); //Get the animator
         spriteRenderer = this.GetComponent<SpriteRenderer>();
         swordDamage = PlayerPrefs.GetInt("SwordDamage");
-        Debug.Log(swordDamage);
         attackCollider.enabled = false; //Disable the hitbox made by sword
     }
 
@@ -180,6 +179,13 @@ public class CharacterActions : MonoBehaviour
             if (enemy != null && !enemiesHit.Contains(other.gameObject))
             {
                 enemy.TakeDamage(swordDamage, "physical");
+                enemiesHit.Add(other.gameObject);
+            }
+
+            IceHealth ice = other.GetComponent<IceHealth>();
+            if (ice != null && !enemiesHit.Contains(other.gameObject))
+            {
+                ice.TakeDamage(swordDamage, "physical");
                 enemiesHit.Add(other.gameObject);
             }
         }

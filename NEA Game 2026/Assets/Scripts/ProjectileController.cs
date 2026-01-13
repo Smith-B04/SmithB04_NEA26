@@ -42,6 +42,7 @@ public class ProjectileController : MonoBehaviour
     {
         EnemyHealth enemy = other.gameObject.GetComponent<EnemyHealth>();
         CharacterHealth player = other.gameObject.GetComponent<CharacterHealth>();
+        IceHealth ice = other.gameObject.GetComponent<IceHealth>();
         if (enemy != null)
         {
             Debug.Log("Hit enemy");
@@ -51,6 +52,11 @@ public class ProjectileController : MonoBehaviour
         {
             Debug.Log("Hit player");
             player.TakeDamage(10, "physical");
+        }
+        if (ice != null)
+        {
+            Debug.Log("Hit player");
+            ice.TakeDamage(10, "physical");
         }
 
         Destroy(this.gameObject); //Destroy arrow in collision
