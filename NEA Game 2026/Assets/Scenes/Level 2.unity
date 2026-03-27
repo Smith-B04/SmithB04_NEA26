@@ -26958,6 +26958,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1220883399128336845, guid: 977369c9b8b0211449cc6c3c2e024fd5,
+        type: 3}
+      propertyPath: m_Name
+      value: Close
+      objectReference: {fileID: 0}
     - target: {fileID: 6226212951772857307, guid: 977369c9b8b0211449cc6c3c2e024fd5,
         type: 3}
       propertyPath: playerInput
@@ -27313,6 +27318,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Night Reign
       objectReference: {fileID: 0}
+    - target: {fileID: 3284951149191408682, guid: 2e09685fc82ffb242b969a5516761df6,
+        type: 3}
+      propertyPath: m_Name
+      value: Reign
+      objectReference: {fileID: 0}
     - target: {fileID: 4003627998998663841, guid: 2e09685fc82ffb242b969a5516761df6,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -27379,7 +27389,7 @@ PrefabInstance:
     - target: {fileID: 1808938319521815141, guid: 2c6f1b1107d0fc8408b127ee6f8b565b,
         type: 3}
       propertyPath: m_Name
-      value: tree
+      value: Return Tree
       objectReference: {fileID: 0}
     - target: {fileID: 2518770219892049640, guid: 2c6f1b1107d0fc8408b127ee6f8b565b,
         type: 3}
@@ -27841,6 +27851,11 @@ PrefabInstance:
       propertyPath: trackingObject
       value: 
       objectReference: {fileID: 1231490426}
+    - target: {fileID: 9188499649735903791, guid: 7ccbefa65a6b3f64894604a619ded286,
+        type: 3}
+      propertyPath: m_Name
+      value: Background Image
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

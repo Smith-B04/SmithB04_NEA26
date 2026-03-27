@@ -47,8 +47,8 @@ public class CharacterHealth : MonoBehaviour
         
     }
 
-    //Applies damage multiplied by resistance modifier unless character is currently invincible
-    public void TakeDamage(float damage, string /*change to set type*/ damageType)
+    // Applies damage multiplied by resistance modifier unless character is currently invincible
+    public void TakeDamage(float damage, string damageType)
     {
         if (invincible != true)
         {
@@ -60,6 +60,7 @@ public class CharacterHealth : MonoBehaviour
         }
     }
 
+    // Returns the busy variable to false
     private IEnumerator finishTakeDamage()
     {
         yield return new WaitForSeconds(0.1f);

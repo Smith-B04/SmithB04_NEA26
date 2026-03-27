@@ -2,7 +2,6 @@ using UnityEngine;
 
 public class PlayerPrefScript : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
     public void ResetPrefs()
     {
         PlayerPrefs.SetInt("MaxHealth", 100);
@@ -16,11 +15,5 @@ public class PlayerPrefScript : MonoBehaviour
         PlayerPrefs.SetString("LevelsBeaten", "");
         PlayerPrefs.SetInt("NewGameStarted", 0);
         PlayerPrefs.Save();
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 }

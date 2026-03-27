@@ -35,30 +35,20 @@ public class CharacterActions : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        ////Test Keys for taking damage
-        //if (Input.GetKeyDown(KeyCode.P))
-        //{
-        //    this.GetComponent<CharacterHealth>().TakeDamage(10, "physical");
-        //}
-        //if (Input.GetKeyDown(KeyCode.O))
-        //{
-        //    this.GetComponent<CharacterHealth>().TakeDamage(10, "fire");
-        //}
-        if (Input.GetKeyDown(KeyCode.Escape)) 
+        if (Input.GetKeyDown(KeyCode.Escape)) // Open the settings menu and pause the game
         {
             settings.enabled = true;
             Time.timeScale = 0f;
         }
 
         Canvas[] canvases = this.GetComponents<Canvas>();
-        foreach (Canvas c in canvases)
+        foreach (Canvas c in canvases) // Closes all the other canvases when the settings are open
         {
             c.enabled = !settings.enabled;
         }
-
-        //Debug.Log(PlayerPrefs.GetInt("Score"));
     }
 
+    // Heals the player to max health or adds 50 health and removes one flask resource
     private void OnFlask()
     {
         if (flasksRemaining > 0 && !busy)
@@ -73,6 +63,7 @@ public class CharacterActions : MonoBehaviour
         }
     }
 
+    // Stops visual effect of healing and makes the player not busy
     private IEnumerator FlaskFinish()
     {
         yield return new WaitForSeconds(0.5f);
@@ -80,6 +71,7 @@ public class CharacterActions : MonoBehaviour
         spriteRenderer.color = Color.white;
     }
 
+    // Makes the player invincible and activates the roll animation as well as manipulating stamina accordingly
     private void OnDodge()
     {
         if (this.GetComponent<CharacterStamina>().stamina > 0 && !busy && this.GetComponent<CharacterMovement>().isGrounded)
@@ -95,7 +87,7 @@ public class CharacterActions : MonoBehaviour
         }
     }
 
-    //Return variables to original values after set amount of time
+    // Return variables to original values after set amount of time
     private IEnumerator DodgeFinish()
     {
         yield return new WaitForSeconds(0.3f);
@@ -104,13 +96,13 @@ public class CharacterActions : MonoBehaviour
         this.GetComponent<CharacterMovement>().sprinting = false;
     }
 
+    // Starts the animation of the attack and edits stamina
     private void OnLeftLightAttack()
     {
         if (this.GetComponent<CharacterStamina>().stamina > 0 && !busy)
         {
             busy = true;
             animator.SetTrigger("LeftLightAttack");
-            //Debug.Log("LeftLightAttack");
             this.GetComponent<CharacterStamina>().stamina -= 20; //Edit stamina accordingly
             this.GetComponent<CharacterStamina>().staminaTimer = 1;
             this.GetComponent<CharacterStamina>().loadBar();
@@ -118,7 +110,7 @@ public class CharacterActions : MonoBehaviour
         }
     }
 
-    //Return variables to original values after set amount of time
+    // Enables the attack collider to deal damage
     private IEnumerator leftLightAttackMiddle()
     {
         yield return new WaitForSeconds(0.1f);
@@ -126,7 +118,7 @@ public class CharacterActions : MonoBehaviour
         StartCoroutine(leftLightAttackFinish());
     }
 
-    //Return variables to original values after set amount of time
+    // Return variables to original values after set amount of time
     private IEnumerator leftLightAttackFinish()
     {
         yield return new WaitForSeconds(0.1f);
@@ -135,6 +127,7 @@ public class CharacterActions : MonoBehaviour
         attackCollider.enabled = false;
     }
 
+    // Freezes the player's movement and starts the bow animation
     private void OnRightLightAttack()
     {
         if (this.GetComponent<CharacterStamina>().stamina > 0 && !busy)
@@ -142,7 +135,6 @@ public class CharacterActions : MonoBehaviour
             this.GetComponent<CharacterMovement>().canMove = false;
             busy = true;
             animator.SetTrigger("RightLightAttack");
-            Debug.Log("RightLightAttack");
             this.GetComponent<CharacterStamina>().stamina -= 30; //Edit stamina accordingly
             this.GetComponent<CharacterStamina>().staminaTimer = 1;
             this.GetComponent<CharacterStamina>().loadBar();
@@ -150,7 +142,7 @@ public class CharacterActions : MonoBehaviour
         }
     }
 
-    //Return variables to original values after set amount of time
+    // Instantiates the arrow and returns variables to original values after set amount of time
     private IEnumerator rightLightAttackFinish()
     {
         yield return new WaitForSeconds(0.5f);
@@ -169,12 +161,12 @@ public class CharacterActions : MonoBehaviour
         busy = false;
     }
 
-
-    //Detect if sword hit anything and apply damage to it if so
+    // Detect if sword hit anything and apply damage to it if so
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (attackCollider.IsTouching(other))
         {
+            // Search for the different types of enemy health script to use their setters
             EnemyHealth enemy = other.GetComponent<EnemyHealth>();
             if (enemy != null && !enemiesHit.Contains(other.gameObject))
             {

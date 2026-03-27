@@ -30,6 +30,7 @@ public class RangedEnemyMovement : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
+        // Flips Orcs Sprite to face the player
         if (active && Math.Abs(rb.linearVelocityX) < 5 && !animator.GetBool("Dead"))
         {
             if (target.transform.position.x < this.transform.position.x)
@@ -41,6 +42,7 @@ public class RangedEnemyMovement : MonoBehaviour
                 this.transform.localScale = new UnityEngine.Vector3(Math.Abs(this.transform.localScale.x), this.transform.localScale.y, this.transform.localScale.z);
             }
 
+            // Orc moves away when the player is within a certain range
             if (Math.Abs(target.transform.position.x - this.transform.position.x) < 4f && Math.Abs(target.transform.position.y - this.transform.position.y) < 3f)
             {
                 rb.AddForce(new UnityEngine.Vector3(
@@ -60,7 +62,7 @@ public class RangedEnemyMovement : MonoBehaviour
 
         /*RaycastHit2D gapHit = Physics2D.Raycast(footCollider.transform.position, new UnityEngine.Vector2(1.4f, -1.4f), 0.1f);
         Debug.DrawRay(footCollider.transform.position, new UnityEngine.Vector2(1.4f, -1.4f), Color.green, 5f);
-        if (!gapHit) //raycast from feet forwards for the jump over obstical and raycast from feet diagonally down 45 degrees to jump over gap.
+        if (!gapHit) //raycast from feet forwards for the jump over obsticals
         {
             if (isGrounded)
             {

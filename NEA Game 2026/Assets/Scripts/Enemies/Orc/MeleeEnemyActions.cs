@@ -27,12 +27,14 @@ public class MeleeEnemyActions : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        // See if the player is in range to attack them
         if (Math.Abs(this.GetComponent<MeleeEnemyMovement>().target.transform.position.x - this.transform.position.x) < 2f && this.GetComponent<MeleeEnemyMovement>().active && !animator.GetBool("Dead") && !busy && Math.Abs(this.GetComponent<MeleeEnemyMovement>().target.transform.position.y - this.transform.position.y) < 3f)
         {
             StartCoroutine("MeleeAttack");
         }
     }
 
+    // Jump and perform an attack
     private void MeleeAttack()
     {
         if (!busy)
@@ -44,20 +46,19 @@ public class MeleeEnemyActions : MonoBehaviour
             {
                 rb.AddForce(Vector2.up * 250);
             }
-            //this.transform.position = new UnityEngine.Vector3(this.transform.position.x, this.transform.position.y + 1, this.transform.position.z);
             StartCoroutine(MeleeAttackMiddle());
         }
     }
 
-    //Return variables to original values after set amount of time
+    // Activates the attack hit box at the same time as the animation would indicate damage
     private IEnumerator MeleeAttackMiddle()
     {
         yield return new WaitForSeconds(0.4f);
-        attackCollider.enabled = true; //Enable sword attack collider
+        attackCollider.enabled = true; // Enable sword attack collider
         StartCoroutine(MeleeAttackFinish());
     }
 
-    //Return variables to original values after set amount of time
+    // Return variables to original values after set amount of time
     private IEnumerator MeleeAttackFinish()
     {
         yield return new WaitForSeconds(0.2f);
@@ -66,6 +67,7 @@ public class MeleeEnemyActions : MonoBehaviour
         StartCoroutine(attackWait());
     }
 
+    // Pause the enemy temporarily so they don't attack non-stop
     private IEnumerator attackWait()
     {
         yield return new WaitForSeconds((float)(UnityEngine.Random.value*0.5) + 0.5f);
@@ -77,6 +79,7 @@ public class MeleeEnemyActions : MonoBehaviour
     {
         if (attackCollider.IsTouching(other))
         {
+            // Search for the player health script to use its take damage function
             CharacterHealth player = other.GetComponent<CharacterHealth>();
             if (player != null && !enemiesHit.Contains(other.gameObject))
             {

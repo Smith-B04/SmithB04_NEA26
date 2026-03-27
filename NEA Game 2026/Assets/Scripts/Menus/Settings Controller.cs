@@ -34,12 +34,6 @@ public class SettingsController : MonoBehaviour
 
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     public void Rebind(string actionName) {
         InputAction action = actions.FindAction(actionName);
         if (action == null)
@@ -110,7 +104,6 @@ public class SettingsController : MonoBehaviour
                 PlayerPrefs.SetFloat("Magic", 0.75f);
                 PlayerPrefs.SetInt("SwordDamage", 20);
                 currentDifficulty.text = "DIFFICULTY: EASY";
-                //Debug.Log("easy peasy");
                 break;
             case 2:
                 PlayerPrefs.SetInt("MaxHealth", 100);

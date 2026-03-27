@@ -10,7 +10,6 @@ using static UnityEngine.GraphicsBuffer;
 
 public class RangedEnemyActions : MonoBehaviour
 {
-    private Rigidbody2D rb;
     public GameObject Axe;
     public bool busy;
     private Animator animator;
@@ -18,7 +17,6 @@ public class RangedEnemyActions : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        rb = this.GetComponent<Rigidbody2D>(); //Get the rigid body
         animator = this.GetComponent<Animator>(); //Get the animator
     }
 
@@ -31,6 +29,7 @@ public class RangedEnemyActions : MonoBehaviour
         }
     }
 
+    // Start the animation of throwing the axe
     private void RangedAttack()
     {
         if (!busy)
@@ -41,6 +40,7 @@ public class RangedEnemyActions : MonoBehaviour
         }
     }
 
+    // Same code as player ranged attack
     private IEnumerator RangedAttackFinish()
     {
         yield return new WaitForSeconds(0.5f);
@@ -49,15 +49,16 @@ public class RangedEnemyActions : MonoBehaviour
                 new Vector2(
                     this.transform.position.x + 2.15f * this.transform.localScale.x / Math.Abs(this.transform.localScale.x),
                     this.transform.position.y),
-                Quaternion.identity); //Instantiate arrow
+                Quaternion.identity); //Instantiate axe
         newAxe.transform.localScale = new Vector3(
             this.transform.localScale.x / Math.Abs(this.transform.localScale.x) * newAxe.transform.localScale.x,
             newAxe.transform.localScale.y,
             newAxe.transform.localScale.z
-            ); //Change arrows starting direction to the same as the player
+            ); //Change arrows starting direction to the same as the orc
         StartCoroutine(attackWait());
     }
 
+    // Ensure the enemy cannot infinitely attack
     private IEnumerator attackWait()
     {
         yield return new WaitForSeconds((float)(UnityEngine.Random.value * 0.5) + 1f);

@@ -1,5 +1,5 @@
-//Created: Sprint 2
-//Last Edited: Sprint 3
+//Created: Sprint 7
+//Last Edited: Sprint 7
 //Purpose: Control the Health of an enemy
 
 using System.Collections;
@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.SocialPlatforms.Impl;
+using UnityEngine.SceneManagement;
 
 public class IceHealth : MonoBehaviour
 {
@@ -52,10 +53,14 @@ public class IceHealth : MonoBehaviour
         }
         if (deleteTimer < 0 && dead)
         {
+            // Return the player to the main menu and complete level since there is no spirit tree
             Destroy(this.gameObject);
+            SceneManager.LoadScene("Levels Menu");
+            PlayerPrefs.SetString("LevelsBeaten", PlayerPrefs.GetString("LevelsBeaten") + "3");
         }
     }
 
+    // Set health using a function instead of directly changing from other scripts so damage resistances and other changes can be applied
     public void TakeDamage(float damage, string damageType)
     {
         health -= (float)(damage * damageResistances[damageType]);
@@ -67,6 +72,7 @@ public class IceHealth : MonoBehaviour
             enemyCollider.size = new Vector2(0.1f, 0.1f);
             if (dead == false)
             {
+                // Add lots of score for beating the boss
                 int newScore = PlayerPrefs.GetInt("Score") + 100;
                 PlayerPrefs.SetInt("Score", newScore);
             }
@@ -76,12 +82,14 @@ public class IceHealth : MonoBehaviour
         StartCoroutine(HurtWait());
     }
 
+    // Not allow to attack for a short while when damaged
     private IEnumerator HurtWait()
     {
         yield return new WaitForSeconds(1.5f);
         this.GetComponent<IceActions>().busy = false;
     }
 
+    // Destroy the body if it doesn't touch the ground
     private void OnCollisionEnter2D(Collision2D other)
     {
         if (other.gameObject.tag == "Ground")

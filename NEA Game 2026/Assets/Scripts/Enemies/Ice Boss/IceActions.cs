@@ -1,13 +1,11 @@
-//Created: Sprint 3
-//Last Edited: Sprint 3
+//Created: Sprint 7
+//Last Edited: Sprint 7
 //Purpose: Control the actions of an enemy
 
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using static UnityEditor.IMGUI.Controls.PrimitiveBoundsHandle;
-using static UnityEngine.GraphicsBuffer;
 
 public class IceActions : MonoBehaviour
 {
@@ -29,12 +27,14 @@ public class IceActions : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Math.Abs(this.GetComponent<IceMovement>().target.transform.position.x - this.transform.position.x) < 10f && this.GetComponent<IceMovement>().active && !animator.GetBool("Dead") && !busy && Math.Abs(this.GetComponent<IceMovement>().target.transform.position.y - this.transform.position.y) < 5f)
+        // Check if in melee range of the player
+        if (Math.Abs(this.GetComponent<IceMovement>().target.transform.position.x - this.transform.position.x) < 10f && this.GetComponent<IceMovement>().active && !animator.GetBool("Dead") && !busy && Math.Abs(this.GetComponent<IceMovement>().target.transform.position.y - this.transform.position.y) < 5.5f)
         {
             StartCoroutine("MeleeAttack");
         }
     }
 
+    // Start the attack animation
     private void MeleeAttack()
     {
         if (!busy)
@@ -45,7 +45,7 @@ public class IceActions : MonoBehaviour
         }
     }
 
-    //Return variables to original values after set amount of time
+    // Activate attack hitbox in time with the animation
     private IEnumerator MeleeAttackMiddle()
     {
         yield return new WaitForSeconds(0.55f);
@@ -62,12 +62,14 @@ public class IceActions : MonoBehaviour
         StartCoroutine(attackWait());
     }
 
+    // Gives a random amount of time between attacks
     private IEnumerator attackWait()
     {
         yield return new WaitForSeconds((float)(UnityEngine.Random.value * 0.5) + 2f);
         busy = false;
     }
 
+    // Start the throw animation 
     private void RangedAttack()
     {
         if (!busy)
@@ -77,25 +79,26 @@ public class IceActions : MonoBehaviour
             StartCoroutine(RangedAttackFinish());
         }
     }
-
+    
+    // Instantiate a projectile facing the same direction
     private IEnumerator RangedAttackFinish()
     {
         yield return new WaitForSeconds(0.5f);
-        GameObject newAxe = Instantiate(
+        GameObject newProjectile = Instantiate(
                 projectile,
                 new Vector2(
                     this.transform.position.x + 2.15f * this.transform.localScale.x / Math.Abs(this.transform.localScale.x),
                     this.transform.position.y),
-                Quaternion.identity); //Instantiate arrow
-        newAxe.transform.localScale = new Vector3(
-            this.transform.localScale.x / Math.Abs(this.transform.localScale.x) * newAxe.transform.localScale.x,
-            newAxe.transform.localScale.y,
-            newAxe.transform.localScale.z
+                Quaternion.identity); //Instantiate projectile
+        newProjectile.transform.localScale = new Vector3(
+            this.transform.localScale.x / Math.Abs(this.transform.localScale.x) * newProjectile.transform.localScale.x,
+            newProjectile.transform.localScale.y,
+            newProjectile.transform.localScale.z
             ); //Change arrows starting direction to the same as the enemy
         StartCoroutine(attackWait());
     }
 
-    //Detect if sword hit anything and apply damage to it if so
+    //Detect if melee hit character and apply damage to it if so
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (attackCollider.IsTouching(other))

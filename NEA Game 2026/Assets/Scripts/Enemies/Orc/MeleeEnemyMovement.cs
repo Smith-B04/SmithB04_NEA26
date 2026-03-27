@@ -27,7 +27,7 @@ public class MeleeEnemyMovement : MonoBehaviour
     {
         terrainMask = LayerMask.GetMask("Ground");
         active = false;
-        rb = this.GetComponent<Rigidbody2D>(); //Get the players rigidbody and animator
+        rb = this.GetComponent<Rigidbody2D>(); //Get the enemy's rigidbody and animator
         animator = this.GetComponent<Animator>();
     }
 
@@ -36,10 +36,11 @@ public class MeleeEnemyMovement : MonoBehaviour
     {
         if (active && Math.Abs(rb.linearVelocityX) < 5 && !animator.GetBool("Dead"))
         {
+            // Flip the orcs sprite to face the player
             if (target.transform.position.x < this.transform.position.x)
             {
                 this.transform.localScale = new UnityEngine.Vector3(-1 * Math.Abs(this.transform.localScale.x), this.transform.localScale.y, this.transform.localScale.z);
-                if (flippedDirection != -1)
+                if (flippedDirection != -1) // Moves the orc slightly so its sprite flipping doesn't make it look like its moved
                 {
                     this.transform.position = this.transform.position + new UnityEngine.Vector3(-1f, 0, 0);
                     flippedDirection = -1;
@@ -48,7 +49,7 @@ public class MeleeEnemyMovement : MonoBehaviour
             else
             {
                 this.transform.localScale = new UnityEngine.Vector3(Math.Abs(this.transform.localScale.x), this.transform.localScale.y, this.transform.localScale.z);
-                if (flippedDirection != 1)
+                if (flippedDirection != 1) // Moves the orc slightly so its sprite flipping doesn't make it look like its moved
                 {
                     this.transform.position = this.transform.position + new UnityEngine.Vector3(1f, 0, 0);
                     flippedDirection = 1;
@@ -57,12 +58,13 @@ public class MeleeEnemyMovement : MonoBehaviour
 
             if (Math.Abs(target.transform.position.x - this.transform.position.x) > 2f)
             {
+                // Move the orc towards the player
                 rb.AddForce(new UnityEngine.Vector3(
                        Math.Sign(this.transform.localScale.x) * speedModifier * 30000 * Time.deltaTime, 0, 0));
                 animator.SetBool("Walking", true);
 
                 RaycastHit2D obstacleHit = Physics2D.Raycast(footCollider.transform.position + new UnityEngine.Vector3(0, -0.1f, 0), UnityEngine.Vector2.right * Mathf.Sign(this.gameObject.transform.localScale.x), 2f, terrainMask);
-                if (obstacleHit.collider != null) //raycast from feet forwards for the jump over obstical and raycast from feet diagonally down 45 degrees to jump over gap.
+                if (obstacleHit.collider != null) //raycast from feet forwards for the jump over obstical
                 {
                     Debug.Log("Enemy jump!");
                     if (isGrounded)
@@ -83,7 +85,7 @@ public class MeleeEnemyMovement : MonoBehaviour
         }
     }
 
-    //Set grounded variable and reset jumps
+    // Set grounded variable to true
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.gameObject.tag == "Ground")
@@ -95,7 +97,7 @@ public class MeleeEnemyMovement : MonoBehaviour
         }
     }
 
-    //Set grounded variable
+    // Set grounded variable to false
     private void OnTriggerExit2D(Collider2D other)
     {
         if (other.gameObject.tag == "Ground")

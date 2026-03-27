@@ -23,5 +23,11 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Level 2.unity
     guid: e9895af6640434c4eb982f56cc27e9ce
+  - enabled: 1
+    path: Assets/Scenes/Win Screen.unity
+    guid: 7c293cad4a7484e4faf111f57221adbb
+  - enabled: 1
+    path: Assets/Scenes/Ice Boss.unity
+    guid: 93616b410813b1f4cbaf001a1a8e1787
   m_configObjects: {}
   m_UseUCBPForAssetBundles: 0

@@ -46,7 +46,8 @@ public class EnemyHealth : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (delete && dead) {
+        if (delete && dead) // Delete the the enemy if it doesn't touch the ground
+        {
             deleteTimer -= Time.deltaTime;
         }
         if (deleteTimer < 0 && dead)
@@ -55,10 +56,12 @@ public class EnemyHealth : MonoBehaviour
         }
     }
 
+    // Applies damage multiplied by resistance modifier
     public void TakeDamage(float damage, string damageType)
     {
         health -= (float)(damage * damageResistances[damageType]);
         animator.SetTrigger("Hurt");
+        // Find the correct EnemyActions script for each type
         if (this.GetComponent<RangedEnemyActions>() != null) 
         {
             this.GetComponent<RangedEnemyActions>().busy = true; 
@@ -71,7 +74,7 @@ public class EnemyHealth : MonoBehaviour
         {
             animator.SetBool("Dead", true);
             enemyCollider.size = new Vector2(0.1f,0.1f);
-            if (dead == false)
+            if (dead == false) // gain score after death
             {
                 int newScore = PlayerPrefs.GetInt("Score") + 10;
                 PlayerPrefs.SetInt("Score", newScore);
@@ -82,6 +85,7 @@ public class EnemyHealth : MonoBehaviour
         StartCoroutine(HurtWait());
     }
 
+    // Return all the variables to normal after damage
     private IEnumerator HurtWait()
     {
         yield return new WaitForSeconds(1.5f);
@@ -95,6 +99,7 @@ public class EnemyHealth : MonoBehaviour
         }
     }
 
+    // Stop the sprite from deleting if it hits the floor
     private void OnCollisionEnter2D(Collision2D other)
     {
         if (other.gameObject.tag == "Ground")

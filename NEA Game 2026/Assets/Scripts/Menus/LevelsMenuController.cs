@@ -1,5 +1,10 @@
+//
+//
+//
+
 using TMPro;
 using UnityEngine;
+using UnityEngine.Analytics;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
@@ -11,12 +16,6 @@ public class LevelsMenuController : MonoBehaviour
     public Button level2;
     public Button level3;
     private char[] levelsBeaten;
-
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-    }
 
     // Update is called once per frame
     void Update()
@@ -47,10 +46,14 @@ public class LevelsMenuController : MonoBehaviour
                 }
             }
         }
+        if (levelsBeaten.Length >= 4)
+        {
+            SceneManager.LoadScene("Win Screen");
+        }
     }
 
-    public void Load(string SceneName)
+    public void Load(string sceneName)
     {
-        SceneManager.LoadScene(SceneName);
+        SceneManager.LoadScene(sceneName);
     }
 }

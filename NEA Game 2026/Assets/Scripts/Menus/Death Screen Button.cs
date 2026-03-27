@@ -13,12 +13,6 @@ public class DeathScreenButton : MonoBehaviour
         this.GetComponent<PlayerPrefScript>().ResetPrefs();   
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     public void OnClick()
     {
         SceneManager.LoadScene("Main Menu");
