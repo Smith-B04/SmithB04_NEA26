@@ -26,6 +26,7 @@ public class AreaTrigger : MonoBehaviour
         {
             rangedEnemies = this.transform.parent.GetComponentsInChildren<RangedEnemyMovement>();
             meleeEnemies = this.transform.parent.GetComponentsInChildren<MeleeEnemyMovement>();
+            // move through all the enemies to activate them
             for (int i = 0; i < rangedEnemies.Count(); i++)
             {
                 rangedEnemies[i].GetComponent<RangedEnemyMovement>().active = true;
@@ -35,7 +36,7 @@ public class AreaTrigger : MonoBehaviour
                 meleeEnemies[i].GetComponent<MeleeEnemyMovement>().active = true;
             }
             audioSource.Play();
-            triggered = true;
+            triggered = true; // ensure it can't be triggered twice
         }
     }
 }

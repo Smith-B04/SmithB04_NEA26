@@ -1,6 +1,6 @@
-//
-//
-//
+//Created: Sprint 5
+//Last Edited: Sprint 6
+//Purpose: Control the buttons that lead to each level.
 
 using TMPro;
 using UnityEngine;
@@ -20,9 +20,11 @@ public class LevelsMenuController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        // Check that all levels haven't been beaten which would cause the win screen to load
         levelsBeaten = PlayerPrefs.GetString("LevelsBeaten").ToCharArray();
         if (levelsBeaten.Length > 0)
         {
+            // Cross out all beaten levels
             for (int i = 0; i < levelsBeaten.Length; i++)
             {
                 switch (levelsBeaten[i])
@@ -52,6 +54,7 @@ public class LevelsMenuController : MonoBehaviour
         }
     }
 
+    // Method called by each button with interchangable variable so only one method is required
     public void Load(string sceneName)
     {
         SceneManager.LoadScene(sceneName);

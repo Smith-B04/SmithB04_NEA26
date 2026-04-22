@@ -25,6 +25,7 @@ public class TrackingScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        // track slightly offset if not a camera
         if (isCamera == true)
         {
             this.transform.position = new Vector3(trackingObject.transform.position.x, trackingObject.transform.position.y, this.transform.position.z);

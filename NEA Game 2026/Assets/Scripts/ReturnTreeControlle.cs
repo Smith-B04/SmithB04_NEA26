@@ -23,6 +23,7 @@ public class ReturnTreeControlle : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
+        // show prompt when player enters the area
         if (other == playerCollider)
         {
             prompt.text = "Interact to return home...";
@@ -32,6 +33,7 @@ public class ReturnTreeControlle : MonoBehaviour
 
     private void OnTriggerExit2D(Collider2D other)
     {
+        // remove prompt when player exits
         if (other == playerCollider)
         {
             prompt.text = "";
@@ -44,13 +46,15 @@ public class ReturnTreeControlle : MonoBehaviour
         if (interactable && !open)
         {
             interactable = false;
+            // store all the variables to save over levels
             PlayerPrefs.SetInt("MaxHealth", (int)(playerCollider.gameObject.GetComponent<CharacterHealth>().maxHealth));
             PlayerPrefs.SetInt("MaxStamina", (int)(playerCollider.gameObject.GetComponent<CharacterStamina>().maxStamina));
-            PlayerPrefs.SetInt("MaxFlasks", (int)(playerCollider.gameObject.GetComponent<CharacterActions>().flasksRemaining));
+            PlayerPrefs.SetInt("MaxFlasks", (int)(playerCollider.gameObject.GetComponent<CharacterActions>().maxFlasks));
             PlayerPrefs.SetFloat("Physical", (playerCollider.gameObject.GetComponent<CharacterHealth>().damageResistances["physical"]));
             PlayerPrefs.SetFloat("Fire", (playerCollider.gameObject.GetComponent<CharacterHealth>().damageResistances["fire"]));
             PlayerPrefs.SetFloat("Magic", (playerCollider.gameObject.GetComponent<CharacterHealth>().damageResistances["magic"]));
             PlayerPrefs.SetInt("SwordDamage", (int)(playerCollider.gameObject.GetComponent<CharacterActions>().swordDamage));
+            // Add the current level to the ones that have been beaten
             PlayerPrefs.SetString("LevelsBeaten", PlayerPrefs.GetString("LevelsBeaten") + level);
             PlayerPrefs.Save();
             audioSource.Play();
@@ -63,6 +67,7 @@ public class ReturnTreeControlle : MonoBehaviour
 
     private IEnumerator loadNewScene()
     {
+        // increase score and load the new scene
         int newScore = PlayerPrefs.GetInt("Score") + 100;
         PlayerPrefs.SetInt("Score", newScore);
         yield return new WaitForSeconds(2);

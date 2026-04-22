@@ -1,7 +1,12 @@
+//Created: Sprint 6
+//Last Edited: Sprint 6
+//Purpose: Holds the method to reset the player prefs.
+
 using UnityEngine;
 
 public class PlayerPrefScript : MonoBehaviour
 {
+    // method called when prefs need reseting
     public void ResetPrefs()
     {
         PlayerPrefs.SetInt("MaxHealth", 100);

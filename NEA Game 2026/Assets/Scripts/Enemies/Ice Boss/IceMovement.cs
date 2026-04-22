@@ -1,6 +1,6 @@
-//Created: Sprint 3
-//Last Edited: Sprint 3
-//Purpose: Control the movement of an enemy
+//Created: Sprint 7
+//Last Edited: Sprint 7
+//Purpose: Control the movement of the ice boss.
 
 using JetBrains.Annotations;
 using System;
@@ -35,10 +35,11 @@ public class IceMovement : MonoBehaviour
     {
         if (active && Math.Abs(rb.linearVelocityX) < 3 && !animator.GetBool("Dead"))
         {
+            // flip the boss's sprite to face the player
             if (target.transform.position.x < this.transform.position.x)
             {
                 this.transform.localScale = new UnityEngine.Vector3(-1 * Math.Abs(this.transform.localScale.x), this.transform.localScale.y, this.transform.localScale.z);
-                if (flippedDirection != -1)
+                if (flippedDirection != -1) // moves the boss slightly so its sprite flipping doesn't make it look like its moved
                 {
                     this.transform.position = this.transform.position + new UnityEngine.Vector3(-1f, 0, 0);
                     flippedDirection = -1;
@@ -47,15 +48,16 @@ public class IceMovement : MonoBehaviour
             else
             {
                 this.transform.localScale = new UnityEngine.Vector3(1 * Math.Abs(this.transform.localScale.x), this.transform.localScale.y, this.transform.localScale.z);
-                if (flippedDirection != 1)
+                if (flippedDirection != 1) // moves the boss slightly so its sprite flipping doesn't make it look like its moved
                 {
-                    this.transform.position = this.transform.position + new UnityEngine.Vector3(1f, 0, 0);
+                    this.transform.position = this.transform.position + new UnityEngine.Vector3(1f, 0, 0); 
                     flippedDirection = 1;
                 }
             }
 
             if (Math.Abs(target.transform.position.x - this.transform.position.x) > 10f)
             {
+                // Move the orc towards the player
                 rb.AddForce(new UnityEngine.Vector3(
                        Math.Sign(this.transform.localScale.x) * speedModifier * 30000 * Time.deltaTime, 0, 0));
                 animator.SetBool("Walking", true);

@@ -21,6 +21,7 @@ public class DormantPowerController : MonoBehaviour
     private bool active;
     private AudioSource audioSource;
 
+    // stores all the information about an upgrade
     public class UpgradeInfo
     {
         public string name { get; set; }
@@ -29,6 +30,7 @@ public class DormantPowerController : MonoBehaviour
         public float increase { get; set; }
     }
 
+    // stores all the upgrades made numbered so they can be selected randomly
     private Dictionary<int, UpgradeInfo> UpgradeDict = new Dictionary<int, UpgradeInfo>
     {
         [0] = new UpgradeInfo { name = "Health Upgrade", description = "increases max health by 15%.", stat = "health", increase = 1.15f},
@@ -49,6 +51,7 @@ public class DormantPowerController : MonoBehaviour
         open = false;
         active = true;
 
+        // calls OnClick when each button is clicked
         for (int i = 0; i < buttons.Count(); i++)
         {
             buttons[i].onClick.AddListener(OnClick);
@@ -57,6 +60,7 @@ public class DormantPowerController : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
+        // Shows prompt to interact if available
         if (other == playerCollider)
         {
             if (active)
@@ -77,6 +81,7 @@ public class DormantPowerController : MonoBehaviour
 
     private void OnTriggerExit2D(Collider2D other)
     {
+        // remove prompts and interactibilty function when out of range
         if (other == playerCollider)
         {
             prompt.text = "";
@@ -93,7 +98,8 @@ public class DormantPowerController : MonoBehaviour
             open = true;
             canvas.enabled = true;
             prompt.text = "";
-            playerCollider.gameObject.GetComponent<CharacterActions>().busy = true;
+            playerCollider.gameObject.GetComponent<CharacterActions>().busy = true; // stop the key presses from making the player act
+            // generate buttons if unopened
             for (int i = 0; i < buttons.Count(); i++)
             {
                 if (buttons[i].name == "Unassigned")
@@ -121,6 +127,7 @@ public class DormantPowerController : MonoBehaviour
     {
         // I got this line of code that finds the button clicked from this forum: https://discussions.unity.com/t/how-to-get-the-button-gameobject-when-it-is-clicked/649845/2
         GameObject button = UnityEngine.EventSystems.EventSystem.current.currentSelectedGameObject;  
+        // find the upgrade associated with that button and apply its effect
         for (int i = 0; i < UpgradeDict.Count(); i++) 
         {
             if (UpgradeDict[i].name == button.name)

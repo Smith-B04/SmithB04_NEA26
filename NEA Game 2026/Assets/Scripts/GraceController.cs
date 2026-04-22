@@ -16,7 +16,9 @@ public class GraceController : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
+        // check if the entity within is the player
         CharacterHealth player = other.gameObject.GetComponent<CharacterHealth>();
+        // edit stats of player
         if (player != null)
         {
             player.health = player.maxHealth;
@@ -40,6 +42,7 @@ public class GraceController : MonoBehaviour
         CharacterHealth player = other.gameObject.GetComponent<CharacterHealth>();
         if (player != null)
         {
+            // remove the players invinciblity
             player.invincible = false;
         }
     }

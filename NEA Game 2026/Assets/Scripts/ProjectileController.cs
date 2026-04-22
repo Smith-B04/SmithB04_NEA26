@@ -24,6 +24,7 @@ public class ProjectileController : MonoBehaviour
     {
         rotation += Time.deltaTime * 75;
 
+        // spin the object if it is an axe
         if (type == "Axe")
         {
             this.transform.rotation = Quaternion.Euler(this.transform.rotation.x, this.transform.rotation.y, rotation);
@@ -31,6 +32,7 @@ public class ProjectileController : MonoBehaviour
         rb.linearVelocityX = projectileSpeed * this.transform.localScale.x/Mathf.Abs(this.transform.localScale.x); //Move the projectile in the direction it is facing
         timer -= Time.deltaTime;
 
+        // destroy the item to reduce lag
         if (timer < 0) 
         {
             Destroy(this.gameObject);
@@ -40,6 +42,7 @@ public class ProjectileController : MonoBehaviour
     //Deal damage to any enemy hit by the arrow 
     private void OnCollisionEnter2D(Collision2D other)
     {
+        // find the health script of whatever is collided with
         EnemyHealth enemy = other.gameObject.GetComponent<EnemyHealth>();
         CharacterHealth player = other.gameObject.GetComponent<CharacterHealth>();
         IceHealth ice = other.gameObject.GetComponent<IceHealth>();

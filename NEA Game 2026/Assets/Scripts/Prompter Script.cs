@@ -1,3 +1,7 @@
+//Created: Sprint 6
+//Last Edited: Sprint 6
+//Purpose: Control the prompt of the player in the tutorial display.
+
 using System.Threading;
 using TMPro;
 using UnityEngine;
@@ -5,12 +9,6 @@ using UnityEngine;
 public class PrompterScript : MonoBehaviour
 {
     public TextMeshProUGUI prompt;
-
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-    }
 
     // Update is called once per frame
     void Update()
@@ -25,6 +23,7 @@ public class PrompterScript : MonoBehaviour
     {
         if (other.gameObject.name == "PlayerCharacter")
         {
+            // Change the prompt based on the hitbox moved through
             switch (this.name) 
             {
                 case "left/right":
